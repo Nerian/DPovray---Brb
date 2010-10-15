@@ -1,17 +1,23 @@
-module Worker
-  class Worker    
-    def add_job(options, file_name)      
-      puts "Received a new Job"                
-    end               
-    
-  end  
+class Output
+  def messages
+    @messages ||= []
+  end
+
+  def puts(message)
+    messages << message
+  end
+end
+
+def output
+  @output ||= Output.new
 end
 
 
 When /^I receive a job$/ do
-  Worker::Worker.add_job("-w320 -h120", "povray.pov")
+  worker = Worker::Worker.new(output)                              
+  worker.add_job("-w320 -h120", "povray.pov")
 end
 
-Then /^I should see "([^"]*)"$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+Then /^I should see "([^"]*)"$/ do |message|
+  output.messages.should include(message)
 end
