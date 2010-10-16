@@ -73,8 +73,8 @@ Project management will be done using a Pivotal[http://www.pivotaltracker.com/pr
                                              
 == Getting the sources
                                                 
-*git clone git@github.com:Nerian/DPovray.git       
-*svn checkout http://svn.github.com/Nerian/DPovray.git
+* git clone git@github.com:Nerian/DPovray.git       
+* svn checkout http://svn.github.com/Nerian/DPovray.git
 
 == Issues Tracking
 
