@@ -45,7 +45,7 @@ We must ensure that a failing worker doesn't make the final rendering of a scene
 	
 * If a worker is available, then nothing is done.
 
-With that algorithm we can ensure that failing Workers doesn't make the system fail in performing a render.
+With that algorithm we can ensure that failing Workers doesn't make the system fail in performing a render.                
 
 == Testing
 
@@ -80,11 +80,13 @@ Project management will be done using a Pivotal[http://www.pivotaltracker.com/pr
 == Getting the sources
                                                 
 * git clone git@github.com:Nerian/DPovray.git   
-* svn checkout http: svn.github.com/Nerian/DPovray.git
+* svn checkout http: //svn.github.com/Nerian/DPovray.git
 
 == Issues Tracking
 
-Found a bug? Suggestion? => siotopo at gmail.com
+Found a bug? Suggestion? 
+
+Send a message or use the issue_tracker[http://github.com/Nerian/DPovray/issues]
 
 Copyright © 2010 Gonzalo Rodríguez-Baltanás Díaz 
 
