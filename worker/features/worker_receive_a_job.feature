@@ -7,8 +7,8 @@ Feature: Worker receive a job
 	Scenario: Worker receives a Job
 	  When I receive a job
 	  Then I should see "Received a new Job"
-	  And I should see "Unmashaling the Object..."
-	  And I should see "Unmashaling completed"
+	  And I should see "Unmarshaling the Object..."
+	  And I should see "Unmarshaling completed"
 	
 	
 		

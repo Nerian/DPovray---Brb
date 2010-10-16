@@ -5,7 +5,7 @@ Feature: Worker retrieves job file
   	So I can render the scene
 
 	Scenario: worker success in retrieving a .pov file
-	  Given I have a Job
+	  Given I receive a job
 	  When I ask for a .pov file
 	  Then I should see "Asking for .pov file"
 	  And I should see "Received marshaled .Pov file"

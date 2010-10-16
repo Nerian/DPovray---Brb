@@ -13,12 +13,12 @@ module Worker
       end                                                      
       
       it "sends a unmarshaling the Job message" do 
-        output.should_receive(:puts).with('Unmashaling the Object...')
+        output.should_receive(:puts).with('Unmarshaling the Object...')
         worker.add_job(job.serialize())
       end 
       
       it "sends a unmarshaling completion message" do
-        output.should_receive(:puts).with('Unmashaling completed')
+        output.should_receive(:puts).with('Unmarshaling completed')
         worker.add_job(job.serialize())
       end
     end    
