@@ -57,7 +57,13 @@ Ensuring that the system works as expected will be done at 3 levels. We will fol
 	
 * Third level will be performing argument data validation in every method.
 	
-With all of these tools and development process we expect to build a very robust system.   
+With all of these tools and development process we expect to build a very robust system.    
+
+To run tests go to command line and move to the dpovray folder. Get inside one of the components, for example 'Worker', and type:
+
+* To run cucumber tests: <tt>cucumber</tt>
+
+* To run Rspec tests: <tt>rspec spec --color --format doc</tt>
 
 == Documentation
 
