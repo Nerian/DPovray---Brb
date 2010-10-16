@@ -22,4 +22,12 @@ end
 
 Then /^I should see "([^"]*)"$/ do |message|
   output.messages.should include(message)
+end            
+
+Given /^I have a Job$/ do
+  pending # express the regexp above with the code you wish you had
+end
+
+When /^I ask for a \.pov file$/ do
+  pending # express the regexp above with the code you wish you had
 end
