@@ -6,7 +6,7 @@ Feature: Worker receive a job
 		
 	Scenario: Worker receives a Job
 	  When I receive a job
-	  Then I should see "Received a new Job"
+	  Then I should see "Received a new Job" 
 	
 	
 		
