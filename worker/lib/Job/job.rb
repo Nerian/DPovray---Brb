@@ -32,8 +32,8 @@ module Job
       @povray_scene_file_name
     end                      
     
-    def povray_image_file_name
-      @povray_image_file_name
+    def partial_image_file_name
+      @partial_image_file_name
     end  
                                                   
   end

@@ -45,10 +45,28 @@ module Worker
         if (povray_scene_file.nil?)
           @output.puts 'Failed to unmarshal marshaled povray scene file'
         else          
-          @output.puts 'Pov file ready'
+          @output.puts 'Pov file succefully unmarshaled'
+          file = File.open("/tmp/povray.pov","w") do |f|
+            f.puts povray_scene_file                                  
+          end            
+          @output.puts "Pov file saved to temporal file"
         end
       end
-    end               
-    
+    end            
+    def povray_start_render()
+      @output.puts 'Povray render started'
+      if system("povray "+@job.povray_arguments+" -GAfile povray_scene_folder_tmp/povray.pov Output_File_Name=/tmp/"+@job.partial_image_file_name+" 2>error.txt") 
+        @output.puts 'Povray render completed'        
+      else
+        @output.puts 'Povray command failed.'
+        error_message = ''
+        File.open("error.txt","r") do |f|
+          f.each_line do |line|
+            error_message += line
+          end        
+        end
+        @output.puts error_message
+      end
+    end                       
   end  
 end
