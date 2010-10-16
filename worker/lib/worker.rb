@@ -1,1 +1,2 @@
-require "worker/worker"
+require "worker/worker"     
+require "job/job"     
