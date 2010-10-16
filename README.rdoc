@@ -39,11 +39,11 @@ The worker in turn will send back an partial image. When the server has all the 
 
 We must ensure that a failing worker doesn't make the final rendering of a scene fail. For that reason, the Project Server will check the status of Workers registered in the Worker List.
 	
-If a worker is not available and it didn't had a Job assigned, then that worker is simply removed from the Worker List.
+* If a worker is not available and it didn't had a Job assigned, then that worker is simply removed from the Worker List.
 	
-If a worker is not available and it had a Job assigned, then that Job will be assigned to a different Worker and the failing Worker will be removed from the list.
+* If a worker is not available and it had a Job assigned, then that Job will be assigned to a different Worker and the failing Worker will be removed from the list.
 	
-If a worker is available, then nothing is done.
+* If a worker is available, then nothing is done.
 
 With that algorithm we can ensure that failing Workers doesn't make the system fail in performing a render.
 
@@ -51,9 +51,9 @@ With that algorithm we can ensure that failing Workers doesn't make the system f
 
 Ensuring that the system works as expected will be done at 3 levels. We will follow a Behaviour Driven Development methodology[http://en.wikipedia.org/wiki/Behavior_Driven_Development].
 	
-First level will be the use of Cucumber[http://cukes.info/] for application hight view specification and testing.
+* First level will be the use of Cucumber[http://cukes.info/] for application hight view specification and testing.
 	
-Second level will be the use of RSpec[http://rspec.info/] for application low level specification and testing.
+* Second level will be the use of RSpec[http://rspec.info/] for application low level specification and testing.
 	
 Third level will be performing argument data validation in every method.
 	
