@@ -10,7 +10,7 @@ Feature: Worker retrieves job file
 	  Then I should see "Asking for .pov file"
 	  And I should see "Received marshaled .Pov file"
 	  And I should see "Unmarshaling .pov file"
-	  And I should see ".Pov file ready"
+	  And I should see "Pov file ready"
 	
 	
 	

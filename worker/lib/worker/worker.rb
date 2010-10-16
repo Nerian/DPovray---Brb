@@ -45,7 +45,7 @@ module Worker
         if (povray_scene_file.nil?)
           @output.puts 'Failed to unmarshal marshaled povray scene file'
         else          
-          @output.puts '.Pov file ready'
+          @output.puts 'Pov file ready'
         end
       end
     end               
