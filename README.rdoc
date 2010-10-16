@@ -55,7 +55,7 @@ Ensuring that the system works as expected will be done at 3 levels. We will fol
 	
 * Second level will be the use of RSpec[http://rspec.info/] for application low level specification and testing.
 	
-Third level will be performing argument data validation in every method.
+* Third level will be performing argument data validation in every method.
 	
 With all of these tools and development process we expect to build a very robust system.   
 
