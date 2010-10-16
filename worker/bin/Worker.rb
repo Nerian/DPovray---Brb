@@ -1,11 +1,8 @@
 #!/usr/bin/env ruby
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__) 
-require 'worker'                        
+require 'worker_node'                        
 
+worker = Worker::Worker.new() 
+job = Job::Job.new('project_name', '-w320 -h120', 'povray.pov', 'partial_image_file_name')       
 
-worker = Worker::Worker.new(STDOUT) 
-
-options = "-w320 -h120"
-file_name = "povray.pov"        
-
-worker.add_job(options,file_name)
+worker.add_job(job.serialize())
