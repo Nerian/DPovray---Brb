@@ -53,7 +53,7 @@ module Worker
       else
         @output.puts 'Error: Failed to Unmarshal de Job'
       end
-    end
+    end  
     
     def retrieve_pov_file_from_server()                         
       @output.puts 'Asking for .pov file'
@@ -103,7 +103,6 @@ module Worker
     end
     
     def send_rendered_image_to_job_requester()         
-      #BrB::Tunnel.create(nil, "brb://localhost:5555")
       @output.puts("Connection with server stablished")
       
       if @project_server.put(Marshal.dump(@job), Marshal.dump(partial_image_file))
