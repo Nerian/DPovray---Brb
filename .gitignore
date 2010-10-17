@@ -1,3 +1,4 @@
 *.DS_Store
 worker/error.txt
 worker/file
+doc/
