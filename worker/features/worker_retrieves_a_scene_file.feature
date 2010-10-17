@@ -1,6 +1,3 @@
-# Author:: Gonzalo Rodríguez-Baltanás Díaz  
-# Licence:: See Licence.rdoc
-
 Feature: Worker retrieves job file
 	In order to render using Povray
   	As a worker

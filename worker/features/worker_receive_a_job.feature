@@ -1,6 +1,3 @@
-# Author:: Gonzalo Rodríguez-Baltanás Díaz  
-# Licence:: See Licence.rdoc
-
 Feature: Worker receive a job  
 
 	As a worker

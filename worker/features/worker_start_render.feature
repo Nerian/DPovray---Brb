@@ -1,6 +1,3 @@
-# Author:: Gonzalo Rodríguez-Baltanás Díaz  
-# Licence:: See Licence.rdoc
-
 Feature: Worker start render
   In order to get a image
   As a Worker

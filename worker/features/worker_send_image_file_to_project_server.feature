@@ -1,7 +1,3 @@
-# Author:: Gonzalo Rodríguez-Baltanás Díaz  
-# Licence:: See Licence.rdoc
-
-
 Feature: Worker send image file to project server
   In order to deliver the image to Project Server
   As a Worker
