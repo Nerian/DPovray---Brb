@@ -1,5 +1,7 @@
 # Author:: Gonzalo Rodríguez-Baltanás Díaz  
-# Licence:: See Licence.rdoc
+# Licence:: See Licence.rdoc   
+
+require 'BrB'
 
 module Worker    
   
@@ -14,6 +16,10 @@ module Worker
       end
       file.close
       marshaled_povray_scene_file = Marshal.dump(povray_scene_string)
+    end
+    
+    def receive_image_file(marshaled_image_file)
+      
     end
   end
     
@@ -88,6 +94,12 @@ module Worker
         end
         @output.puts error_message
       end
+    end
+    
+    def send_rendered_image_to_job_requester()         
+      #BrB::Tunnel.create(nil, "brb://localhost:5555")
+      @output.puts("Connection with server stablished")
+      @output.puts("Image successfully sent")
     end                       
   end  
 end

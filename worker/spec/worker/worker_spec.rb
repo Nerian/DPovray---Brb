@@ -2,6 +2,7 @@
 # Licence:: See Licence.rdoc
 
 require 'spec_helper'
+require 'BrB'
             
 module Worker
   describe Worker do 
@@ -89,6 +90,27 @@ module Worker
         worker.retrieve_pov_file_from_server()
         worker.povray_start_render()
       end
-    end    
+    end
+    describe "#send_rendered_image_to_job_requester()" do                          
+      after(:each) do
+        File.delete("/tmp/povray.pov", "/tmp/partial_image_file_name.png")                
+      end
+      
+      it "Worker contact project server" do
+        output.should_receive(:puts).with("Connection with server stablished")   
+        worker.add_job(job.serialize())        
+        worker.retrieve_pov_file_from_server()
+        worker.povray_start_render()
+        worker.send_rendered_image_to_job_requester()        
+      end
+      
+      it "Worker send partial image to project server" do
+        output.should_receive(:puts).with("Image successfully sent")      
+        worker.add_job(job.serialize())        
+        worker.retrieve_pov_file_from_server()
+        worker.povray_start_render()
+        worker.send_rendered_image_to_job_requester()        
+      end
+    end                                                 
   end
 end

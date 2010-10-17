@@ -29,6 +29,10 @@ end
 When /^I run povray$/ do
   @worker.povray_start_render()
 end
+
+When /^I send the partial image to project server$/ do
+  @worker.send_rendered_image_to_job_requester()
+end
       
 Then /^I should see "([^"]*)"$/ do |message|  
   output.messages.should include(message)

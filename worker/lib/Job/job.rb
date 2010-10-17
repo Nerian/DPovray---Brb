@@ -12,7 +12,7 @@ module Job
       @project_name = project_name
       @povray_arguments = povray_arguments
       @povray_scene_file_name = povray_scene_file_name 
-      @partial_image_file_name = partial_image_file_name
+      @partial_image_file_name = partial_image_file_name   
     end  
     
     def serialize
@@ -37,7 +37,6 @@ module Job
     
     def partial_image_file_name
       @partial_image_file_name
-    end  
-                                                  
+    end                                                       
   end
 end
