@@ -18,11 +18,13 @@ module Worker
       marshaled_povray_scene_file = Marshal.dump(povray_scene_string)
     end
     
-    def put(job, marshaled_image_file)
-      if marshaled_image_file
-        true
-      else
+    def put(marshaled_job, marshaled_image_file)
+      image_file_string = Marshal.load(marshaled_image_file)
+      job = Marshal.load(marshaled_job)
+      if image_file_string.size == 0 or job.nil?        
         false
+      else          
+        true
       end
     end
   end
@@ -104,7 +106,7 @@ module Worker
       #BrB::Tunnel.create(nil, "brb://localhost:5555")
       @output.puts("Connection with server stablished")
       
-      if @project_server.put(@job, Marshal.dump(partial_image_file))
+      if @project_server.put(Marshal.dump(@job), Marshal.dump(partial_image_file))
         @output.puts("Image successfully sent")
       else
         @output.puts("Error: Failure while sending the file")
@@ -120,9 +122,10 @@ module Worker
           partial_image +=line
         end
         file.close
-        partial_image
+        return partial_image
+      else
+        @output.puts("Error: Image file wasn't found")
       end
-      nil
     end
 
   end  
