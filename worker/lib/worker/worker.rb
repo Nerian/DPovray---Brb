@@ -1,5 +1,10 @@
-module Worker
+# Author:: Gonzalo Rodríguez-Baltanás Díaz  
+# Licence:: See Licence.rdoc
+
+module Worker    
   
+  # The Project_Server class represent  the Project Server Component, whose 
+  # responsability is to manage Projects, distribute Jobs
   class Project_Server         
     def find_pov_file(name)
       povray_scene_string = ''
@@ -11,10 +16,15 @@ module Worker
       marshaled_povray_scene_file = Marshal.dump(povray_scene_string)
     end
   end
-  
+    
+  # The Worker class represent a Render Node in the Cluster. 
+  # A Render Node responsability is to render scenes according 
+  # to specific options and send back the image.
+
   class Worker
     @project_server
-    @job    
+    @job
+        
     def initialize(output=STDOUT) 
       @output = output          
       @project_server = Project_Server.new

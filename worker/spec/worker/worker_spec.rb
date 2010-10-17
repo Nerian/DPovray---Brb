@@ -1,5 +1,8 @@
-require 'spec_helper'
+# Author:: Gonzalo Rodríguez-Baltanás Díaz  
+# Licence:: See Licence.rdoc
 
+require 'spec_helper'
+            
 module Worker
   describe Worker do 
     let(:output) {double('output').as_null_object}

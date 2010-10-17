@@ -1,3 +1,6 @@
+# Author:: Gonzalo Rodríguez-Baltanás Díaz  
+# Licence:: See Licence.rdoc
+
 #!/usr/bin/env ruby
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__) 
 require 'worker_node'                        
