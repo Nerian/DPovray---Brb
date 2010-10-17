@@ -1,3 +1,6 @@
+# Author:: Gonzalo Rodríguez-Baltanás Díaz  
+# Licence:: See Licence.rdoc
+
 class Output
   def messages
     @messages ||= []
