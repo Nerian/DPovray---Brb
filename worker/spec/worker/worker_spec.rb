@@ -73,7 +73,7 @@ module Worker
       end
       
       it "Worker start a Povray process" do
-        output.should_receive(:puts).with("Povray render proccess started")
+        output.should_receive(:puts).with("Povray render process started")
         worker.povray_start_render()
       end                          
       
@@ -83,7 +83,7 @@ module Worker
       end
       
       it "Image was rendered succefully" do         
-        output.should_receive(:puts).with("Partial image was rendered succefully")
+        output.should_receive(:puts).with("Partial image was rendered successfully")
         worker.povray_start_render()
       end
     end
