@@ -2,4 +2,6 @@
 # Licence:: See Licence.rdoc
 
 require "worker/worker"     
-require "job/job"     
+require "job/job"
+require "rubygems"
+require "bundler/setup"     
