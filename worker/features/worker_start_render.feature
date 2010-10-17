@@ -5,9 +5,11 @@ Feature: Worker start render
 
 	Scenario: Worker render a pov file
 	  Given I receive a job
+	  And I ask for a .pov file
 	  When I run povray
-	  Then I should see "Povray render started"
-	  And I should see "Povray render completed"
+	  Then I should see "Povray render proccess started"
+	  And I should see "Povray command was run"
+	  And I should see "Partial image was rendered succefully"
 	
 	
 	

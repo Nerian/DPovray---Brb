@@ -29,7 +29,7 @@ module Worker
       if @job.instance_of? Job::Job                  
         @output.puts 'Unmarshaling completed'
       else
-        @output.puts 'Failed to Unmarshal de Job'
+        @output.puts 'Error: Failed to Unmarshal de Job'
       end
     end
     
@@ -43,22 +43,33 @@ module Worker
         @output.puts 'Unmarshaling .pov file'
         povray_scene_file = Marshal.load(marshaled_povray_scene_file)
         if (povray_scene_file.nil?)
-          @output.puts 'Failed to unmarshal marshaled povray scene file'
+          @output.puts 'Error: Failed to unmarshal marshaled povray scene file'
         else          
           @output.puts 'Pov file succefully unmarshaled'
           file = File.open("/tmp/povray.pov","w") do |f|
             f.puts povray_scene_file                                  
-          end            
-          @output.puts "Pov file saved to temporal file"
+          end
+          if File.exist?("/tmp/povray.pov")
+            @output.puts "Pov file saved to temporal file"
+          else
+            @output.puts "Error: Pov file wasn't saved to temporal file"
+          end
+          
         end
       end
-    end            
+    end          
+      
     def povray_start_render()
-      @output.puts 'Povray render started'
-      if system("povray "+@job.povray_arguments+" -GAfile povray_scene_folder_tmp/povray.pov Output_File_Name=/tmp/"+@job.partial_image_file_name+" 2>error.txt") 
-        @output.puts 'Povray render completed'        
+      @output.puts "Povray render proccess started"
+      if system("povray "+@job.povray_arguments+" +FN -GAfile /tmp/povray.pov Output_File_Name=/tmp/"+@job.partial_image_file_name+" 2>error.txt") 
+        @output.puts "Povray command was run"
+        if File.exist?("/tmp/partial_image_file_name.png")
+          @output.puts "Partial image was rendered succefully"
+        else
+          @output.puts "Error: Partial image was NOT rendered succefully"
+        end       
       else
-        @output.puts 'Povray command failed.'
+        @output.puts "Error: Povray command failed."
         error_message = ''
         File.open("error.txt","r") do |f|
           f.each_line do |line|
