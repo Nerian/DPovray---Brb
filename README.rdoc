@@ -2,7 +2,7 @@
 
 DPovray is Ruby application that aims to make the use of a Cluster of Povray renderers easy. 
 
-DPovray is built on top of the BrB library and there is a strong focus on speed, usability, ease of deployment and performance. 
+DPovray is built on top of the BrB[http://www.tricksonrails.com/2010/04/introducing-brb-extremely-fast-interface-for-doing-distributed-ruby/] library and there is a strong focus on speed, usability, ease of deployment and performance. 
 	
 This is a project for course Conception of Distributed Systems and Cooperative systems. Prof. Vincent Englebert and Prof. Fabian Gilson are the teachers.  	
 
