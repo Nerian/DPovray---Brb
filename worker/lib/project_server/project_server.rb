@@ -3,7 +3,7 @@ module ProjectServer
   
   # The Project_Server class represent  the Project Server Component, whose 
   # responsability is to manage Projects, distribute Jobs
-  class Project_Server         
+  class ProjectServer         
     def find_pov_file(name)
       povray_scene_string = ''
       file = File.new("povray.pov","r")
