@@ -4,4 +4,5 @@
 require "worker/worker"     
 require "job/job"
 require "rubygems"
-require "bundler/setup"     
+require "bundler/setup"
+require 'BrB'     

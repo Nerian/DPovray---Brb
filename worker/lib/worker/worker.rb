@@ -1,34 +1,8 @@
 # Author:: Gonzalo Rodríguez-Baltanás Díaz  
 # Licence:: See Licence.rdoc   
 
-require 'BrB'
-
 module Worker    
-  
-  # The Project_Server class represent  the Project Server Component, whose 
-  # responsability is to manage Projects, distribute Jobs
-  class Project_Server         
-    def find_pov_file(name)
-      povray_scene_string = ''
-      file = File.new("povray.pov","r")
-      file.each_line do |line| 
-        povray_scene_string +=line
-      end
-      file.close
-      marshaled_povray_scene_file = Marshal.dump(povray_scene_string)
-    end
-    
-    def put(marshaled_job, marshaled_image_file)
-      image_file_string = Marshal.load(marshaled_image_file)
-      job = Marshal.load(marshaled_job)
-      if image_file_string.size == 0 or job.nil?        
-        false
-      else          
-        true
-      end
-    end
-  end
-    
+      
   # The Worker class represent a Render Node in the Cluster. 
   # A Render Node responsability is to render scenes according 
   # to specific options and send back the image.
@@ -39,11 +13,17 @@ module Worker
         
     def initialize(output=STDOUT) 
       @output = output          
-      @project_server = Project_Server.new
+      #@project_server = Project_Server.new
     end
         
-    def add_job(serialized_job)      
-      #puts "Received a new Job"                
+    def add_job(serialized_job, project_server=nil)      
+      
+      # This is for testing purposes. The arg project_server will be a mock object. Normally, the project_server will
+      # be obtained from the Job information.
+      if not project_server.nil?
+        @project_server = project_server
+      end        
+        
       @output.puts 'Received a new Job'  
                                        
       @output.puts 'Unmarshaling the Object...'
@@ -85,7 +65,7 @@ module Worker
       @output.puts "Povray render process started"
       if system("povray "+@job.povray_arguments+" +FN -GAfile /tmp/povray.pov Output_File_Name=/tmp/"+@job.partial_image_file_name+" 2>error.txt") 
         @output.puts "Povray command was run"
-        if File.exist?("/tmp/partial_image_file_name.png")
+        if File.exist?("/tmp/#{@job.partial_image_file_name}.png")
           @output.puts "Partial image was rendered successfully"
         else
           @output.puts "Error: Partial image was NOT rendered succefully"
@@ -105,7 +85,7 @@ module Worker
     def send_rendered_image_to_job_requester()         
       @output.puts("Connection with server stablished")
       
-      if @project_server.put(Marshal.dump(@job), Marshal.dump(partial_image_file))
+      if @project_server.put(Marshal.dump(@job), Marshal.dump(partial_image_file)) == true
         @output.puts("Image successfully sent")
       else
         @output.puts("Error: Failure while sending the file")
