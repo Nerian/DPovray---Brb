@@ -76,6 +76,22 @@ Documentation will be done at two levels.
 == Project Management
 
 Project management will be done using a Pivotal[http://www.pivotaltracker.com/projects/128982] project.
+
+== Deployment 
+
+Deployment of DPovray is not implemented yet, but assuming the system has ruby installed the expected process would be:
+
+* gem install dpovray
+
+That's it.
+
+Now to launch each component:
+
+* [Worker] <tt>dpovray worker</tt>
+* [Web User Interface] <tt>dpovray web</tt>
+* [Project Server] <tt>dpovray manager</tt>     
+
+Optional parameters may be given. For example, port number.
                                              
 == Getting the sources
                                                 
