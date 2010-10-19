@@ -1,13 +1,14 @@
-= DPovray – Distributed Povray
+DPovray – Distributed Povray
+===
 
 DPovray is Ruby application that aims to make the use of a Cluster of Povray renderers easy. 
 
-DPovray is built on top of the BrB[http://www.tricksonrails.com/2010/04/introducing-brb-extremely-fast-interface-for-doing-distributed-ruby/] library and there is a strong focus on speed, usability, ease of deployment and performance. 
+DPovray is built on top of the [BrB](http://www.tricksonrails.com/2010/04/introducing-brb-extremely-fast-interface-for-doing-distributed-ruby 'BrB') library and there is a strong focus on speed, usability, ease of deployment and performance. 
 	
 This is a project for course Conception of Distributed Systems and Cooperative systems. Prof. Vincent Englebert and Prof. Fabian Gilson are the teachers.  	
 
-== Components
-
+Components
+===
 The system is composed of 4 components:
 	
 * Web User Interface: The user, a professional 3D artist for example, use a Website to upload a .pov file. In return, he receives the rendered image.
@@ -16,10 +17,10 @@ The system is composed of 4 components:
 	
 * Worker: Every node of the Cluster is a Worker and its mission is to render .pov scenes and return an image to Project Server.
 	                         
-* Renderer: The renderer we are going to use is Povray[http://www.povray.org]. 
+* Renderer: The renderer we are going to use is [Povray](http://www.povray.org 'Povray'). 
 		   
-== How it works
-
+How it works
+===
 Each Worker will broadcast its service, stating is ability to accept incoming Job requests. The Project Server will be listening for this broadcast and will act on it. Each time the PS found a new worker it will add it to the list 'Worker List'.
 	
 The Project Server will be listening for incoming Job Request from the Web User Interface. When the PS receives a .pov file it will create a new project. This new project will be added to a list 'Project List'.
@@ -35,8 +36,8 @@ The Project Server will then send to each worker in the Worker List information 
 The worker in turn will send back an partial image. When the server has all the partial images it will apply a merging algorithm to form the final image. Finally this image will be sent to the Web User Interface.
 		                            
 		
-== Reliability
-
+Reliability
+===
 We must ensure that a failing worker doesn't make the final rendering of a scene fail. For that reason, the Project Server will check the status of Workers registered in the Worker List.
 	
 * If a worker is not available and it didn't had a Job assigned, then that worker is simply removed from the Worker List.
@@ -47,13 +48,13 @@ We must ensure that a failing worker doesn't make the final rendering of a scene
 
 With that algorithm we can ensure that failing Workers doesn't make the system fail in performing a render.                
 
-== Testing
-
-Ensuring that the system works as expected will be done at 3 levels. We will follow a Behaviour Driven Development methodology[http://en.wikipedia.org/wiki/Behavior_Driven_Development].
+Testing
+===
+Ensuring that the system works as expected will be done at 3 levels. We will follow [BBD](http://en.wikipedia.org/wiki/Behavior_Driven_Development 'BDD').
 	
-* First level will be the use of Cucumber[http://cukes.info/] for application hight view specification and testing.
-	
-* Second level will be the use of RSpec[http://rspec.info/] for application low level specification and testing.
+* First level will be the use of [Cucumber](http://www.cukes.info 'Cucumber') for application hight view specification and testing.                             
+	                                                            
+* Second level will be the use of [RSpec](http://rspec.info/ 'RSpec') for application low level specification and testing.
 	
 * Third level will be performing argument data validation in every method.
 	
@@ -65,20 +66,20 @@ To run tests go to command line and move to the dpovray folder. Get inside one o
 
 * To run Rspec tests: <tt>rspec spec --color --format doc</tt>
 
-== Documentation
-
+Documentation
+===
 Documentation will be done at two levels.
 
 * In Code documentation: The code will be documented using RDoc, the native ruby documentation tool.
 
 * Formal Documents: Application specification will be formally documented using traditional documents and diagrams. 
 	
-== Project Management
+Project Management
+===
+Project management will be done using a [Pivotal](http://www.pivotaltracker.com/projects/128982 Pivotal) project.
 
-Project management will be done using a Pivotal[http://www.pivotaltracker.com/projects/128982] project.
-
-== Deployment 
-
+Deployment 
+===
 Deployment of DPovray is not implemented yet, but assuming the system has ruby installed the expected process would be:
 
 * gem install dpovray
@@ -93,16 +94,16 @@ Now to launch each component:
 
 Optional parameters may be given. For example, port number.
                                              
-== Getting the sources
-                                                
+Getting the sources
+===                                                
 * git clone git@github.com:Nerian/DPovray.git   
-* svn checkout http: //svn.github.com/Nerian/DPovray.git
+* svn checkout http://svn.github.com/Nerian/DPovray.git
 
-== Issues Tracking
-
+Issues Tracking
+===
 Found a bug? Suggestion? 
 
-Send a message or use the issue_tracker[http://github.com/Nerian/DPovray/issues]
+Send a message or use the [issue_tracker](http://github.com/Nerian/DPovray/issues "issuetracker")          
 
 Copyright © 2010 Gonzalo Rodríguez-Baltanás Díaz 
 
