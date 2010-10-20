@@ -8,12 +8,11 @@ module Worker
   # to specific options and send back the image.
 
   class Worker
-    @project_server
-    @job
+    
+    attr_accessor :project_server, :job, :output        
         
     def initialize(output=STDOUT) 
       @output = output          
-      #@project_server = Project_Server.new
     end
         
     def add_job(serialized_job, project_server=nil)      
