@@ -93,9 +93,9 @@ module Worker
     end
     
     def partial_image_file
-      if File.exist?("/tmp/partial_image_file_name.png")
+      if File.exist?("/tmp/#{@job.partial_image_file_name}.png")
         partial_image = ''
-        file = File.open("/tmp/partial_image_file_name.png","r")
+        file = File.open("/tmp/#{@job.partial_image_file_name}.png","r")
         file.each_line do |line| 
           partial_image +=line
         end

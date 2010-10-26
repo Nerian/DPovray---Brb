@@ -17,7 +17,7 @@ end
 
 When /^I receive a job$/ do
   @worker = Worker::Worker.new(output)  
-  job = Job::Job.new('project_name', '-w50 -h50', 'povray.pov', 'partial_image_file_name')                           
+  job = Job::Job.new('project_name:1', '-w50 -h50', 'povray.pov')                           
   @worker.add_job(job.serialize(), ProjectServer::ProjectServer.new)
 end            
 

@@ -7,7 +7,7 @@ require 'BrB'
 module Worker
   describe Worker do 
     let(:output) {double('output').as_null_object}
-    let(:job) {Job::Job.new('project_name', '-w50 -h50', 'povray.pov', 'partial_image_file_name')}
+    let(:job) {Job::Job.new('project_name', '-w50 -h50', 'povray.pov')}
     let(:marshaled_job) {Marshal.dump(job)}
     let(:project_server) {double('project_server').as_null_object}  
     let(:worker) {Worker.new(output)}
@@ -78,7 +78,7 @@ module Worker
     
     describe "#povray_start_render()" do
       after(:each) do
-        File.delete("/tmp/povray.pov", "/tmp/partial_image_file_name.png")
+        File.delete("/tmp/povray.pov")
       end     
       
       before(:each) do
@@ -104,7 +104,7 @@ module Worker
     end
     describe "#send_rendered_image_to_job_requester()" do      
       after(:each) do
-        File.delete("/tmp/povray.pov", "/tmp/partial_image_file_name.png")                        
+        File.delete("/tmp/povray.pov")                        
       end                                                                 
       
       before(:each) do
