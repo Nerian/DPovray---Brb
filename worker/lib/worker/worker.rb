@@ -26,7 +26,7 @@ module Worker
       @output.puts 'Received a new Job'  
                                        
       @output.puts 'Unmarshaling the Object...'
-      @job = Marshal.load(serialized_job)
+      @job = Job::Job.deserialize(serialized_job)
       if @job.instance_of? Job::Job                  
         @output.puts 'Unmarshaling completed'
       else
