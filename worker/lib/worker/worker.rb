@@ -27,11 +27,13 @@ module Worker
                                        
       @output.puts 'Unmarshaling the Object...'
       @job = Job::Job.deserialize(serialized_job)
+      
       if @job.instance_of? Job::Job                  
         @output.puts 'Unmarshaling completed'
       else
         @output.puts 'Error: Failed to Unmarshal de Job'
-      end
+      end 
+      
     end  
     
     def retrieve_pov_file_from_server()                         
