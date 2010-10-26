@@ -62,7 +62,7 @@ module Worker
       
     def povray_start_render()
       @output.puts "Povray render process started"
-      if system("povray "+@job.povray_arguments+" +FN -GAfile /tmp/povray.pov Output_File_Name=/tmp/"+@job.partial_image_file_name+" 2>error.txt") 
+      if system("povray "+@job.povray_arguments+" +FN -GAfile /tmp/povray.pov Output_File_Name=/tmp/"+@job.partial_image_file_name+" 2>/tmp/error") 
         @output.puts "Povray command was run"
         if File.exist?("/tmp/#{@job.partial_image_file_name}.png")
           @output.puts "Partial image was rendered successfully"
@@ -72,7 +72,7 @@ module Worker
       else
         @output.puts "Error: Povray command failed."
         error_message = ''
-        File.open("error.txt","r") do |f|
+        File.open("/tmp/error","r") do |f|
           f.each_line do |line|
             error_message += line
           end        
