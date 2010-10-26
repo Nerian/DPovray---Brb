@@ -16,7 +16,7 @@ def output
 end
 
 When /^I receive a job$/ do
-  @worker = Worker::Worker.new(output)  
+  @worker = Worker::Worker.new(output, 1)  
   job = Job::Job.new('project_name:1', '-w50 -h50', 'povray.pov')                           
   @worker.add_job(job.serialize(), ProjectServer::ProjectServer.new)
 end            

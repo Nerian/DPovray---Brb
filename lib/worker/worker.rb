@@ -9,10 +9,11 @@ module Worker
 
   class Worker
     
-    attr_accessor :project_server, :job, :output        
+    attr_accessor :project_server, :job, :output, :id        
         
-    def initialize(output=STDOUT) 
-      @output = output          
+    def initialize(output=STDOUT, id) 
+      @output = output              
+      @id = id
     end
         
     def add_job(serialized_job, project_server=nil)      
@@ -56,8 +57,7 @@ module Worker
             @output.puts "Pov file saved to temporal file"
           else
             @output.puts "Error: Pov file wasn't saved to temporal file"
-          end
-          
+          end          
         end
       end
     end          

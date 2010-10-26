@@ -10,7 +10,7 @@ module Worker
     let(:job) {Job::Job.new('project_name', '-w50 -h50', 'povray.pov')}
     let(:marshaled_job) {Marshal.dump(job)}
     let(:project_server) {double('project_server').as_null_object}  
-    let(:worker) {Worker.new(output)}
+    let(:worker) {Worker.new(output, 1)}
     let(:marshaled_povray_scene_file){   
       povray_scene_string = ''
       file = File.new("povray.pov","r")
