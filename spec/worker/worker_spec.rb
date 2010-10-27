@@ -19,26 +19,27 @@ module Worker
       end
       file.close                                                             
       marshaled_povray_scene_file = Marshal.dump(povray_scene_string)        
-    }                          
+    }
+    let(:tmp_folder_path){"/tmp/#{worker.id}"}                          
     
     describe "#Create_folder_structure" do
       
       it "Generate folder structure and there was nothing there before" do
-        FileUtils.rm_rf("/tmp/#{worker.id}")
-        Dir.exist?("/tmp/#{worker.id}").should == false
+        FileUtils.rm_rf(tmp_folder_path)
+        Dir.exist?(tmp_folder_path).should == false
         worker.create_folder_structure()
-        Dir.exist?("/tmp/#{worker.id}").should == true
-        Dir.entries("/tmp/#{worker.id}").count.should == 2  #  '.' and '..'         
+        Dir.exist?(tmp_folder_path).should == true
+        Dir.entries(tmp_folder_path).count.should == 2  #  '.' and '..'         
         worker.tmp_folder.should_not be(nil)
                         
       end
       
       it "Generate folder structure and there was something there before" do
-        FileUtils.rm_rf("/tmp/#{worker.id}")
-        FileUtils.mkdir("/tmp/#{worker.id}")
+        FileUtils.rm_rf(tmp_folder_path)
+        FileUtils.mkdir(tmp_folder_path)
         worker.create_folder_structure()
-        Dir.exist?("/tmp/#{worker.id}").should == true
-        Dir.entries("/tmp/#{worker.id}").count.should == 2  #  '.' and '..'        
+        Dir.exist?(tmp_folder_path).should == true
+        Dir.entries(tmp_folder_path).count.should == 2  #  '.' and '..'        
       end
             
     end
