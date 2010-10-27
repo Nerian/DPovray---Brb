@@ -24,17 +24,16 @@ module Worker
     
     describe "#Create_folder_structure" do
       
-      it "Generate folder structure and there was nothing there before" do
+      it "Generate folder structure when there was nothing there before" do
         FileUtils.rm_rf(tmp_folder_path)
         Dir.exist?(tmp_folder_path).should == false
         worker.create_folder_structure()
         Dir.exist?(tmp_folder_path).should == true
         Dir.entries(tmp_folder_path).count.should == 2  #  '.' and '..'         
-        worker.tmp_folder.should_not be(nil)
-                        
+        worker.tmp_folder.should_not be(nil)                        
       end
       
-      it "Generate folder structure and there was something there before" do
+      it "Generate folder structure when there was something there before" do
         FileUtils.rm_rf(tmp_folder_path)
         FileUtils.mkdir(tmp_folder_path)
         worker.create_folder_structure()
