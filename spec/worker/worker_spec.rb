@@ -47,17 +47,21 @@ module Worker
                       
       it "Worker received a new Job" do              
         output.should_receive(:puts).with('Received a new Job')
-        worker.add_job(job.serialize())        
+        worker.add_job(job.serialize())
+        worker.job.should_not be(nil)
+                
       end                                                      
       
       it "Worker try to unmarshal the received Job" do 
         output.should_receive(:puts).with('Unmarshaling the Object...')
         worker.add_job(job.serialize())            
+        worker.job.should_not be(nil)
       end 
       
       it "Worker succefully unmarshaled the job" do
         output.should_receive(:puts).with('Unmarshaling completed')
         worker.add_job(job.serialize())
+        worker.job.should_not be(nil)
       end
     end  
     
