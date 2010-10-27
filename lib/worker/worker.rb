@@ -119,6 +119,13 @@ module Worker
         @output.puts("Error: Image file wasn't found")
       end
     end
+    
+    def cleanup()
+      if Dir.exist?(@tmp_folder)
+        FileUtils.rm_rf(@tmp_folder)
+      end
+      @output.puts("Cleanup completed")
+    end
 
   end  
 end

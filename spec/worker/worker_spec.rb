@@ -144,6 +144,15 @@ module Worker
         project_server.should_receive(:put).with(marshaled_job,/\w/).and_return(true)      
         worker.send_rendered_image_to_job_requester()        
       end
-    end                                                 
+    end
+    
+    describe "#Clean up tmp directory" do
+      it "Worker remove its tmp directory" do
+        output.should_receive(:puts).with("Cleanup completed")
+        worker.cleanup()        
+        Dir.exist?("#{tmp_folder_path}").should == false
+      end
+    end
+                                                     
   end
 end
