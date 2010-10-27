@@ -28,7 +28,9 @@ module Worker
         Dir.exist?("/tmp/#{worker.id}").should == false
         worker.create_folder_structure()
         Dir.exist?("/tmp/#{worker.id}").should == true
-        Dir.entries("/tmp/#{worker.id}").count.should == 2  #  '.' and '..'
+        Dir.entries("/tmp/#{worker.id}").count.should == 2  #  '.' and '..'         
+        worker.tmp_folder.should_not be(nil)
+                        
       end
       
       it "Generate folder structure and there was something there before" do

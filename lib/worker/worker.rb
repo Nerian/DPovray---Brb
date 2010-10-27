@@ -9,20 +9,22 @@ module Worker
 
   class Worker
     
-    attr_accessor :project_server, :job, :output, :id        
+    attr_accessor :project_server, :job, :output, :id, :tmp_folder        
         
     def initialize(output=STDOUT, id) 
       @output = output              
-      @id = id                         
+      @id = id
     end       
     
     def create_folder_structure()
-      if Dir.exist?("/tmp/#{@id}")
-        FileUtils.rm_rf("/tmp/#{@id}")
-        FileUtils.mkdir("/tmp/#{@id}")
+      tmp_folder = "/tmp/#{@id}"
+      if Dir.exist?(tmp_folder)
+        FileUtils.rm_rf(tmp_folder)
+        FileUtils.mkdir(tmp_folder)
       else
-        FileUtils.mkdir("/tmp/#{@id}")
-      end
+        FileUtils.mkdir(tmp_folder)
+      end        
+      @tmp_folder = tmp_folder
     end
         
     def add_job(serialized_job, project_server=nil)      
