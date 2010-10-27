@@ -13,7 +13,16 @@ module Worker
         
     def initialize(output=STDOUT, id) 
       @output = output              
-      @id = id
+      @id = id                         
+    end       
+    
+    def create_folder_structure()
+      if Dir.exist?("/tmp/#{@id}")
+        FileUtils.rm_rf("/tmp/#{@id}")
+        FileUtils.mkdir("/tmp/#{@id}")
+      else
+        FileUtils.mkdir("/tmp/#{@id}")
+      end
     end
         
     def add_job(serialized_job, project_server=nil)      

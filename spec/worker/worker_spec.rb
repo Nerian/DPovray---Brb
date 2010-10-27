@@ -19,9 +19,30 @@ module Worker
       end
       file.close                                                             
       marshaled_povray_scene_file = Marshal.dump(povray_scene_string)        
-    }            
-        
-    describe "#add_job(job)" do                
+    }                          
+    
+    describe "#Create_folder_structure" do
+      
+      it "Generate folder structure and there was nothing there before" do
+        FileUtils.rm_rf("/tmp/#{worker.id}")
+        Dir.exist?("/tmp/#{worker.id}").should == false
+        worker.create_folder_structure()
+        Dir.exist?("/tmp/#{worker.id}").should == true
+        Dir.entries("/tmp/#{worker.id}").count.should == 2  #  '.' and '..'
+      end
+      
+      it "Generate folder structure and there was something there before" do
+        FileUtils.rm_rf("/tmp/#{worker.id}")
+        FileUtils.mkdir("/tmp/#{worker.id}")
+        worker.create_folder_structure()
+        Dir.exist?("/tmp/#{worker.id}").should == true
+        Dir.entries("/tmp/#{worker.id}").count.should == 2  #  '.' and '..'        
+      end
+            
+    end
+            
+    describe "#add_job(job)" do      
+                      
       it "Worker received a new Job" do              
         output.should_receive(:puts).with('Received a new Job')
         worker.add_job(job.serialize())        
@@ -38,11 +59,7 @@ module Worker
       end
     end  
     
-    describe "#retrieve_pov_file_from_server()" do      
-      
-      after(:each) do
-        File.delete("/tmp/povray.pov")
-      end
+    describe "#retrieve_pov_file_from_server()" do                
       
       before(:each) do
         worker.add_job(marshaled_job, project_server)
@@ -77,9 +94,6 @@ module Worker
     end                          
     
     describe "#povray_start_render()" do
-      after(:each) do
-        File.delete("/tmp/povray.pov")
-      end     
       
       before(:each) do
         worker.add_job(job.serialize(), project_server)        
@@ -102,10 +116,7 @@ module Worker
         worker.povray_start_render()
       end
     end
-    describe "#send_rendered_image_to_job_requester()" do      
-      after(:each) do
-        File.delete("/tmp/povray.pov")                        
-      end                                                                 
+    describe "#send_rendered_image_to_job_requester()" do                                                           
       
       before(:each) do
         worker.add_job(job.serialize(), project_server)        
