@@ -95,7 +95,8 @@ module Worker
       
       it "Worker saved scene to temp file" do
         output.should_receive(:puts).with("Pov file saved to temporal file")                
-        worker.retrieve_pov_file_from_server()        
+        worker.retrieve_pov_file_from_server()
+        File.exist?("#{tmp_folder_path}/povray.pov").should == true        
       end
     end                          
     
@@ -104,7 +105,8 @@ module Worker
       before(:each) do
         worker.add_job(job.serialize(), project_server)        
         project_server.stub(:find_pov_file).and_return(marshaled_povray_scene_file)
-        worker.retrieve_pov_file_from_server()         
+        worker.retrieve_pov_file_from_server()
+        File.exist?("#{tmp_folder_path}/povray.pov").should == true         
       end
       
       it "Worker start a Povray process" do
@@ -118,8 +120,9 @@ module Worker
       end
       
       it "Image was rendered succefully" do         
-        output.should_receive(:puts).with("Partial image was rendered successfully")
-        worker.povray_start_render()
+        output.should_receive(:puts).with("Partial image was rendered successfully")        
+        worker.povray_start_render()                                                
+        File.exist?("#{tmp_folder_path}/partial_image.png").should == true
       end
     end
     describe "#send_rendered_image_to_job_requester()" do                                                           

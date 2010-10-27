@@ -14,6 +14,7 @@ module Worker
     def initialize(output=STDOUT, id) 
       @output = output              
       @id = id
+      create_folder_structure()
     end       
     
     def create_folder_structure()
@@ -61,10 +62,10 @@ module Worker
           @output.puts 'Error: Failed to unmarshal marshaled povray scene file'
         else          
           @output.puts 'Pov file succefully unmarshaled'
-          file = File.open("/tmp/povray.pov","w") do |f|
+          file = File.open("#{tmp_folder}/povray.pov","w") do |f|
             f.puts povray_scene_file                                  
           end
-          if File.exist?("/tmp/povray.pov")
+          if File.exist?("#{tmp_folder}/povray.pov")
             @output.puts "Pov file saved to temporal file"
           else
             @output.puts "Error: Pov file wasn't saved to temporal file"
@@ -75,9 +76,9 @@ module Worker
       
     def povray_start_render()
       @output.puts "Povray render process started"
-      if system("povray "+@job.povray_arguments+" +FN -GAfile /tmp/povray.pov Output_File_Name=/tmp/"+@job.partial_image_file_name+" 2>/tmp/error") 
+      if system("povray "+@job.povray_arguments+" +FN -GAfile #{tmp_folder}/povray.pov Output_File_Name=#{tmp_folder}/partial_image.png 2>#{tmp_folder}/error") 
         @output.puts "Povray command was run"
-        if File.exist?("/tmp/#{@job.partial_image_file_name}.png")
+        if File.exist?("#{tmp_folder}/partial_image.png")
           @output.puts "Partial image was rendered successfully"
         else
           @output.puts "Error: Partial image was NOT rendered succefully"
@@ -85,7 +86,7 @@ module Worker
       else
         @output.puts "Error: Povray command failed."
         error_message = ''
-        File.open("/tmp/error","r") do |f|
+        File.open("#{tmp_folder}/error","r") do |f|
           f.each_line do |line|
             error_message += line
           end        
