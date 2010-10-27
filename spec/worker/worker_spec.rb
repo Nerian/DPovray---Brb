@@ -7,7 +7,7 @@ require 'BrB'
 module Worker
   describe Worker do 
     let(:output) {double('output').as_null_object}
-    let(:job) {Job::Job.new('project_name', '-w50 -h50', 'povray.pov')}
+    let(:job) {Job::Job.new('cucu:1', '-w50 -h50')}
     let(:marshaled_job) {Marshal.dump(job)}
     let(:project_server) {double('project_server').as_null_object}  
     let(:worker) {Worker.new(output, 1)}
@@ -79,7 +79,7 @@ module Worker
       
       it "Worker received marshaled scene file" do
         output.should_receive(:puts).with("Received marshaled .Pov file")
-        project_server.should_receive(:find_pov_file).with(job.povray_scene_file_name).and_return(marshaled_povray_scene_file)
+        project_server.should_receive(:find_pov_file).with(job.id).and_return(marshaled_povray_scene_file)
         worker.retrieve_pov_file_from_server()        
       end
       

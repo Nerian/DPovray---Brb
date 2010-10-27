@@ -4,12 +4,11 @@
 module Job
   class Job     
     
-    attr_accessor :project_name, :povray_arguments, :povray_scene_file_name
+    attr_accessor :id, :povray_arguments
     
-    def initialize(id, povray_arguments, povray_scene_file_name)      
-      @project_name = project_name
+    def initialize(id, povray_arguments)      
       @povray_arguments = povray_arguments
-      @povray_scene_file_name = povray_scene_file_name
+      @id = id
     end  
     
     def serialize

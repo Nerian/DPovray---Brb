@@ -51,7 +51,7 @@ module Worker
     
     def retrieve_pov_file_from_server()                         
       @output.puts 'Asking for .pov file'
-      marshaled_povray_scene_file = @project_server.find_pov_file(@job.povray_scene_file_name)
+      marshaled_povray_scene_file = @project_server.find_pov_file(@job.id)
       if(marshaled_povray_scene_file.nil?)
         @output.puts 'Failed to receive povray scene file'
       else
