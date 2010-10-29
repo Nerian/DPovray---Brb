@@ -18,6 +18,8 @@ module WorkerManager
         number_of_cores = 0
         lambda { WorkerManager.new(number_of_cores) }.should raise_error('Number of cores must be a positive number')                
       end                  
-    end        
+    end                 
+    
+    
   end
 end

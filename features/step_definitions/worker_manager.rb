@@ -1,5 +1,5 @@
-Given /^I can use (\d+) number of cores$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+Given /^I can use (\d+) number of cores$/ do |number_of_cores|
+  @worker_manager = WorkerManager::WorkerManager.new(number_of_cores)
 end
 
 Given /^I have received job \{'id' => 'projectName\.part(\d+)', 'sc' => '(\d+)%','ec'=>'(\d+)%' \}$/ do |arg1, arg2, arg3|
