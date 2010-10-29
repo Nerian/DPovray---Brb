@@ -6,7 +6,7 @@ Feature: WorkerManager use a worker to render a scene
 
 Scenario Outline: Worker Manager split the job in many pieces among workers. 
 	Given I can use <cores> number of cores
-	And I have received job <job>   
+	And I had received job <job>   
 	When I start working on those jobs
 	Then I should split the job <number_of_jobs> times       
 	And I should see <job_division_result>
