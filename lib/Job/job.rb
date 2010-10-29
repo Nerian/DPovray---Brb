@@ -4,11 +4,16 @@
 module Job
   class Job     
     
-    attr_accessor :id, :povray_arguments
+    attr_accessor :id, :starting_column, :ending_column 
     
-    def initialize(id, povray_arguments)      
-      @povray_arguments = povray_arguments
-      @id = id
+    def initialize(id, starting_column, ending_column)
+      @id = id                      
+      
+      unless starting_column.to_i >= 0       
+        raise ArgumentError, "starting column must be a positive number"
+      end
+      @starting_column = starting_column
+      @ending_column = ending_column      
     end  
     
     def serialize
