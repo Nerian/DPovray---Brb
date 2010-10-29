@@ -7,4 +7,5 @@ require "job/job"
 require "rubygems"
 require "bundler/setup"
 require 'BrB'
-require 'FileUtils'     
+require 'fileutils'
+require 'worker_manager/WorkerManager'     
