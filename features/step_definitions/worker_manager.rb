@@ -21,8 +21,7 @@ Then /^I should receive (\d+) Partial Images$/ do |arg1|
 end 
 
 Given /^I had received job id "([^"]*)" sc "([^"]*)" ec "([^"]*)"$/ do |id, startingCol, endingCol|
-  pending
-  #@worker_manager.addJob(Job::Job.new(id, startingCol, endingCol))
+  @worker_manager.addJob(Job::Job.new(id, startingCol, endingCol))
 end
               
 

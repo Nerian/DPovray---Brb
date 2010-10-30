@@ -12,6 +12,10 @@ module Job
       unless starting_column.to_i >= 0       
         raise ArgumentError, "starting column must be a positive number"
       end
+      
+      unless ending_column.to_i >= 0
+        raise ArgumentError, "ending column must be a positive number"        
+      end
       @starting_column = starting_column
       @ending_column = ending_column      
     end  

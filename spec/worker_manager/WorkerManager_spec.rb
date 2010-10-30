@@ -18,6 +18,16 @@ module WorkerManager
         number_of_cores = 0
         lambda { WorkerManager.new(number_of_cores) }.should raise_error('Number of cores must be a positive number')                
       end                  
-    end                         
+    end
+    
+    describe "#Receive a Job" do
+      
+      it "Receive a job" do
+        worker_manager = WorkerManager.new(number_of_cores)        
+        worker_manager.addJob(Job::Job.new("project:4", 0, 100))
+      end
+      
+    end
+                             
   end
 end
