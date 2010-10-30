@@ -28,7 +28,8 @@ module WorkerManager
         worker_manager = WorkerManager.new(number_of_cores)        
         worker_manager.addJob(job)
         worker_manager.job.should be(job)
-      end
+      end   
+      
       it "Receive a job when already had one" do
         number_of_cores = 1
         job1 = Job::Job.new("project:4", 0, 100)
@@ -43,6 +44,6 @@ module WorkerManager
         worker_manager.job.should be(job1)    
         
       end      
-    end                             
+    end                                         
   end
 end
