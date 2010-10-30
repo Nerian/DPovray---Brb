@@ -7,7 +7,7 @@ require 'BrB'
 module Worker
   describe Worker do 
     let(:output) {double('output').as_null_object}
-    let(:job) {Job::Job.new('cucu:1', '-w50 -h50')}
+    let(:job) {Job::Job.new('cucu:1', 0,100)}
     let(:marshaled_job) {Marshal.dump(job)}
     let(:project_server) {double('project_server').as_null_object}  
     let(:worker) {Worker.new(output, 1)}
