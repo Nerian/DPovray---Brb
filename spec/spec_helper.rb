@@ -1,5 +1,3 @@
-# Author:: Gonzalo Rodríguez-Baltanás Díaz  
-# Licence:: See Licence.rdoc
-
+#require 'cover_me'
 require 'worker_node'
 

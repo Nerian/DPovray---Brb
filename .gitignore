@@ -4,3 +4,4 @@ worker/file
 doc/
 worker/povray.png
 file
+coverage.data
