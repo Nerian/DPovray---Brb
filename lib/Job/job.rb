@@ -26,6 +26,18 @@ module Job
     
     def self.deserialize(serialized_job)
       Marshal.load(serialized_job)
+    end             
+    
+    def ==(some_other_job)
+      if self.id == some_other_job.id and self.starting_column == some_other_job.starting_column and self.ending_column == some_other_job.ending_column
+        return true
+      else
+        return false
+      end
+    end
+    
+    def to_s
+      return "id:#{self.id} starting_column:#{self.starting_column} ending_column:#{self.ending_column}" 
     end
                                                               
   end

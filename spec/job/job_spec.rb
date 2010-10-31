@@ -39,6 +39,15 @@ module Job
       end              
     end
     
+    describe "Equality" do
+      it "Should say two Jobs are the same if they have the same attributes" do
+         job1 = Job.new("1",0, 100)
+         job2 = Job.new("1",0, 100)
+         job1.should == job2
+         
+      end
+    end
+    
     
     
   end
