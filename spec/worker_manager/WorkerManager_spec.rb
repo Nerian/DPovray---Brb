@@ -105,7 +105,92 @@ module WorkerManager
         worker_manager.subjobs.include?(subjob5).should == true
         worker_manager.subjobs.include?(subjob6).should == true        
       end
-                                          
+      
+      it "Split 1 job, with 10 cores" do
+        number_of_cores = 10
+        job1 = Job::Job.new("project:4", 0, 100)
+                        
+        worker_manager = WorkerManager.new(number_of_cores)        
+        worker_manager.addJob(job1)        
+        worker_manager.split_job()
+        worker_manager.subjobs.should have(20).Jobs
+      end
+      
+      it "Split job that already was divided,0-50, with 1 cores" do
+        number_of_cores = 1
+        job1 = Job::Job.new("project:4", 0, 50)
+        
+        subjob1 = Job::Job.new("project:4", 0, 25)
+        subjob2 = Job::Job.new("project:4", 25, 50) 
+        
+        worker_manager = WorkerManager.new(number_of_cores)        
+        worker_manager.addJob(job1)        
+        worker_manager.split_job()
+        worker_manager.subjobs.should have(2).Jobs 
+        
+        worker_manager.subjobs.include?(subjob1).should == true
+        worker_manager.subjobs.include?(subjob2).should == true
+      end
+      
+      it "Split 1 job already was divided, 50-100, with 1 core " do
+        number_of_cores = 1
+        job1 = Job::Job.new("project:4", 50, 100)
+        
+        subjob1 = Job::Job.new("project:4", 50, 75)
+        subjob2 = Job::Job.new("project:4", 75, 100) 
+        
+        worker_manager = WorkerManager.new(number_of_cores)        
+        worker_manager.addJob(job1)        
+        worker_manager.split_job()
+        worker_manager.subjobs.should have(2).Jobs 
+        
+        worker_manager.subjobs.include?(subjob1).should == true
+        worker_manager.subjobs.include?(subjob2).should == true
+      end
+      
+      it "Split 1 job already divided, 30-60, with 3 cores" do
+        number_of_cores = 3
+        job1 = Job::Job.new("project:4", 30, 60)
+        
+        subjob1 = Job::Job.new("project:4", 30, 35)
+        subjob2 = Job::Job.new("project:4", 35, 40)
+        subjob3 = Job::Job.new("project:4", 40, 45)
+        subjob4 = Job::Job.new("project:4", 45, 50)
+        subjob5 = Job::Job.new("project:4", 50, 55)
+        subjob6 = Job::Job.new("project:4", 55, 60) 
+        
+        worker_manager = WorkerManager.new(number_of_cores)        
+        worker_manager.addJob(job1)        
+        worker_manager.split_job()
+        worker_manager.subjobs.should have(6).Jobs 
+        
+        worker_manager.subjobs.include?(subjob1).should == true
+        worker_manager.subjobs.include?(subjob2).should == true
+        worker_manager.subjobs.include?(subjob3).should == true
+        worker_manager.subjobs.include?(subjob4).should == true
+        worker_manager.subjobs.include?(subjob5).should == true
+        worker_manager.subjobs.include?(subjob6).should == true
+      end 
+      
+      it "Split 1 job already divided, 30-60, with 50 cores. Should use 30 cores" do
+        number_of_cores = 50
+        
+        job1 = Job::Job.new("project:4", 30, 60)                                                       
+        array = []
+        (30..59).each do |count|
+          job = Job::Job.new("project:4", count,count+1)
+          array.push(job)
+        end
+                   
+        worker_manager = WorkerManager.new(number_of_cores)        
+        worker_manager.addJob(job1)        
+        worker_manager.split_job()
+        worker_manager.subjobs.should have(30).Jobs
+               
+        array.each  do |job|
+          worker_manager.subjobs.include?(job).should == true 
+        end                        
+      end                                                      
     end                                             
   end
 end

@@ -20,27 +20,18 @@ module WorkerManager
     end       
     
     def split_job()           
-      @subjobs = divide2(@job)    
-    end      
-    
-    def divide2(job)
-      new_array_of_job = []
       
-      number_of_jobs_that_we_want_to_create = @cores * 2   
-         
-      ec = job.ending_column.to_i / number_of_jobs_that_we_want_to_create
-      sc = job.starting_column                                           
+      number_of_real_process = @cores * 2
+      number_of_columns_to_render = @job.ending_column - @job.starting_column
+                                                        
+      number_of_jobs_that_we_want_to_create = number_of_real_process
+      if((number_of_columns_to_render/number_of_real_process) < 1) 
+        number_of_jobs_that_we_want_to_create = number_of_columns_to_render
+      end
+              
+      @subjobs = divide2(number_of_jobs_that_we_want_to_create)      
       
-      number_of_jobs_that_we_want_to_create.times do |time|
-        new_job = Job::Job.new(@job.id, ec*time, ec+(ec*time))
-        new_array_of_job.push(new_job)
-      end           
-      
-      new_array_of_job.last.ending_column = job.ending_column
-             
-      return new_array_of_job
-                        
-    end           
+    end                 
     
     def divide(array_of_job)      
       new_array_of_job = []
