@@ -21,10 +21,6 @@ Given /^I had received job id "([^"]*)" sc "([^"]*)" ec "([^"]*)"$/ do |id, star
   @worker_manager.addJob(Job::Job.new(id, startingCol, endingCol))
 end
               
-Then /^I should see \{'(\d+)'=>\{'sc'=>(\d+)% , 'ec'=>(\d+)%\}, '(\d+)'=>\{'sc'=>'(\d+)%', 'ec' => '(\d+)%'\}, '(\d+)'=>\{'sc'=>'(\d+)%' , 'ec'=>'(\d+)%'\}, '(\d+)'=>\{'sc'=>'(\d+)%' , 'ec'=>'(\d+)%'\}\}$/ do |arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12|
-  pending # express the regexp above with the code you wish you had
-end
-
-Then /^I should see \{'(\d+)'=>\{'sc'=>(\d+)% , 'ec'=>(\d+)%\}, '(\d+)'=>\{'sc'=>'(\d+)%', 'ec' => '(\d+)%'\}\}$/ do |arg1, arg2, arg3, arg4, arg5, arg6|
+Then /^I should see the division results as "([^"]*)"$/ do |arg1|
   pending # express the regexp above with the code you wish you had
 end

@@ -9,7 +9,7 @@ Scenario Outline: Worker Manager split the job in many pieces among workers.
 	And I had received job <job>   
 	When I start working on those jobs
 	Then I should split the job in many sub-jobs
-	And I should see <job_division_result>
+	And I should see the division results as <job_division_result>
 	And I should create workers and assign them the jobs
 	And I should receive <number_workers> Partial Images
 
