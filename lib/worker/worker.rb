@@ -34,16 +34,14 @@ module Worker
       # be obtained from the Job information.
       if not project_server.nil?
         @project_server = project_server
-      end        
-        
-      @output.puts 'Received a new Job'  
-                                       
-      @output.puts 'Unmarshaling the Object...'
+      end                                                          
+            
       @job = Job::Job.deserialize(serialized_job)
       
-      if @job.instance_of? Job::Job                  
-        @output.puts 'Unmarshaling completed'
-      else
+      if @job.instance_of? Job::Job                   
+        #@output.puts 'Unmarshaling completed'
+      else                                           
+        #Add exception 
         @output.puts 'Error: Failed to Unmarshal de Job'
       end 
       

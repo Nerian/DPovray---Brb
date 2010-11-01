@@ -10,7 +10,7 @@ Then /^I should split the job in many sub-jobs$/ do
 end
 
 Then /^I should create workers and assign them the jobs$/ do
-  pending # express the regexp above with the code you wish you had
+  @worker_manager.render_scene()
 end
 
 Then /^I should receive (\d+) Partial Images$/ do |arg1|

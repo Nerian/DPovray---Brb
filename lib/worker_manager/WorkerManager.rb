@@ -15,7 +15,10 @@ module WorkerManager
     attr_reader :job
     
     # @return [Array<Job>] The current list of subjobs.
-    attr_reader :subjobs
+    attr_reader :subjobs 
+                        
+    # @return [Array<Worker>] The list of workers that the Worker_Manager is using to render a scene.
+    attr_reader :workers
     
 
     # Instantiates a WorkerManager object.
@@ -66,6 +69,20 @@ module WorkerManager
 
       @subjobs = generate_subjobs(number_of_jobs_that_we_want_to_create)      
 
+    end
+    
+    # It instantiate many workers 
+    def render_scene()  
+      
+      @workers = []
+      counter = 1
+      @subjobs.each do |subjob|
+        worker = Worker::Worker.new("worker:#{counter}")
+        worker.add_job(subjob.serialize())
+        @workers.push(worker)                           
+        counter +=1
+      end
+                         
     end
                                                            
     private 
