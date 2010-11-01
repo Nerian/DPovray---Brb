@@ -29,7 +29,8 @@ module Worker
     end
         
     def add_job(serialized_job, project_server=nil)      
-      
+           
+      @output.puts "Received a new Job"
       # This is for testing purposes. The arg project_server will be a mock object. Normally, the project_server will
       # be obtained from the Job information.
       if not project_server.nil?
@@ -37,9 +38,10 @@ module Worker
       end                                                          
             
       @job = Job::Job.deserialize(serialized_job)
-      
+                         
+      @output.puts "Unmarshaling the Object..."
       if @job.instance_of? Job::Job                   
-        #@output.puts 'Unmarshaling completed'
+        @output.puts 'Unmarshaling completed'
       else                                           
         #Add exception 
         @output.puts 'Error: Failed to Unmarshal de Job'
