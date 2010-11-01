@@ -5,3 +5,4 @@ doc/
 worker/povray.png
 file
 coverage.data
+.yardoc
