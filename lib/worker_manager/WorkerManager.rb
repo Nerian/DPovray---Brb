@@ -31,7 +31,22 @@ module WorkerManager
               
       @subjobs = divide2(number_of_jobs_that_we_want_to_create)      
       
-    end                 
+    end
+    
+     def divide2(number_of_jobs_that_we_want_to_create)
+       new_array_of_job = []
+       
+       render_unit = (job.ending_column - job.starting_column)  / number_of_jobs_that_we_want_to_create
+       sc = job.starting_column                                           
+
+       number_of_jobs_that_we_want_to_create.times do |time|
+         new_job = Job::Job.new(@job.id, sc+render_unit*time, sc+render_unit+(render_unit*time))
+         new_array_of_job.push(new_job)
+       end        
+       
+       new_array_of_job.last.ending_column = job.ending_column            
+       return new_array_of_job
+     end                
     
     def divide(array_of_job)      
       new_array_of_job = []
