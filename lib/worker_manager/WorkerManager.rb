@@ -29,11 +29,11 @@ module WorkerManager
         number_of_jobs_that_we_want_to_create = number_of_columns_to_render
       end
               
-      @subjobs = divide2(number_of_jobs_that_we_want_to_create)      
+      @subjobs = generate_subjobs(number_of_jobs_that_we_want_to_create)      
       
     end
     
-     def divide2(number_of_jobs_that_we_want_to_create)
+     def generate_subjobs(number_of_jobs_that_we_want_to_create)
        new_array_of_job = []
        
        render_unit = (job.ending_column - job.starting_column)  / number_of_jobs_that_we_want_to_create
@@ -46,28 +46,6 @@ module WorkerManager
        
        new_array_of_job.last.ending_column = job.ending_column            
        return new_array_of_job
-     end                
-    
-    def divide(array_of_job)      
-      new_array_of_job = []
-      
-      array_of_job.map do |job| 
-        
-        #First slice              
-        sc = job.starting_column
-        ec = job.ending_column / 2                    
-        new_job = Job::Job.new(job.id, sc, ec)
-        new_array_of_job.push(new_job)        
-        
-        #Second Slice
-        sc = job.ending_column / 2
-        ec = job.ending_column       
-        new_job = Job::Job.new(job.id, sc, ec)
-        new_array_of_job.push(new_job)
-        
-      end
-      return new_array_of_job           
-    end                            
-    
+     end                                                        
   end
 end
