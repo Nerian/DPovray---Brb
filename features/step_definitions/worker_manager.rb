@@ -22,5 +22,5 @@ Given /^I had received job id "([^"]*)" sc "([^"]*)" ec "([^"]*)"$/ do |id, star
 end
               
 Then /^I should see the division results as "([^"]*)"$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+  @worker_manager.subjobs.to_s.should == arg1
 end
