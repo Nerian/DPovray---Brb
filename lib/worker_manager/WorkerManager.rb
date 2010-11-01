@@ -74,13 +74,26 @@ module WorkerManager
     # It instantiate many workers 
     def render_scene()  
       
-      @workers = []
-      counter = 1
+      @workers = []                         
+      @worker_pid = []
+      counter = 1   
+      
+                 
+      
       @subjobs.each do |subjob|
         worker = Worker::Worker.new("worker:#{counter}")
-        worker.add_job(subjob.serialize())
+        worker.add_job(subjob.serialize(), ProjectServer::ProjectServer.new)
+        pid = fork { 
+          worker.retrieve_pov_file_from_server
+          worker.povray_start_render
+        }                 
+        @worker_pid.push(pid)        
         @workers.push(worker)
         counter +=1
+      end
+      
+      @worker_pid.each do |pid|
+        Process.waitpid(pid)
       end
                          
     end
