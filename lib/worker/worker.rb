@@ -27,55 +27,64 @@ module Worker
       end        
       @tmp_folder = tmp_folder
     end
+    
+    def start_your_work(serialized_job)
+      core = BrB::Tunnel.create(nil, "brb://localhost:5555")
+      add_job(serialized_job)
+      retrieve_pov_file_from_server
+      povray_start_render
+      send_rendered_image_to_job_requester
+      core.report("done")
+    end
         
     def add_job(serialized_job, project_server=nil)      
            
-      @output.puts "Received a new Job"
+      #@output.puts "Received a new Job"
       # This is for testing purposes. The arg project_server will be a mock object. Normally, the project_server will
       # be obtained from the Job information.
-      if not project_server.nil?
-        @project_server = project_server
+      if project_server.nil?
+        @project_server = ProjectServer::ProjectServer.new
       end                                                          
             
       @job = Job::Job.deserialize(serialized_job)
                          
-      @output.puts "Unmarshaling the Object..."
+      #@output.puts "Unmarshaling the Object..."
       if @job.instance_of? Job::Job                   
-        @output.puts 'Unmarshaling completed'
+        #@output.puts 'Unmarshaling completed'
       else                                           
         #Add exception 
-        @output.puts 'Error: Failed to Unmarshal de Job'
+        #@output.puts 'Error: Failed to Unmarshal de Job'
       end 
       
     end  
     
     def retrieve_pov_file_from_server()                         
-      @output.puts 'Asking for .pov file'
+      #@output.puts 'Asking for .pov file'
       marshaled_povray_scene_file = @project_server.find_pov_file(@job.id)
       if(marshaled_povray_scene_file.nil?)
-        @output.puts 'Failed to receive povray scene file'
+        #@output.puts 'Failed to receive povray scene file'
       else
-        @output.puts 'Received marshaled .Pov file'
-        @output.puts 'Unmarshaling .pov file'
+        #@output.puts 'Received marshaled .Pov file'
+        #@output.puts 'Unmarshaling .pov file'
         povray_scene_file = Marshal.load(marshaled_povray_scene_file)
         if (povray_scene_file.nil?)
-          @output.puts 'Error: Failed to unmarshal marshaled povray scene file'
+          #@output.puts 'Error: Failed to unmarshal marshaled povray scene file'
         else          
-          @output.puts 'Pov file succefully unmarshaled'
+          #@output.puts 'Pov file succefully unmarshaled'
           file = File.open("#{tmp_folder}/povray.pov","w") do |f|
             f.puts povray_scene_file                                  
           end
           if File.exist?("#{tmp_folder}/povray.pov")
-            @output.puts "Pov file saved to temporal file"
+            #@output.puts "Pov file saved to temporal file"
           else
-            @output.puts "Error: Pov file wasn't saved to temporal file"
+            #@output.puts "Error: Pov file wasn't saved to temporal file"
           end          
         end
       end
     end          
       
     def povray_start_render()
-      @output.puts "Povray render process started"
+      #@output.puts "Povray render process started"
       if system("povray -SC0.#{@job.starting_column} -EC0.#{@job.ending_column} +FN -GAfile #{tmp_folder}/povray.pov Output_File_Name=#{tmp_folder}/partial_image.png 2>#{tmp_folder}/error") 
         @output.puts "Povray command was run"
         if File.exist?("#{tmp_folder}/partial_image.png")
@@ -96,7 +105,7 @@ module Worker
     end
     
     def send_rendered_image_to_job_requester()         
-      @output.puts("Connection with server stablished")
+      #@output.puts("Connection with server stablished")
       
       if @project_server.put(Marshal.dump(@job), Marshal.dump(partial_image_file)) == true
         @output.puts("Image successfully sent")

@@ -204,9 +204,10 @@ module WorkerManager
 
         worker_manager.render_scene()
         worker_manager.workers.each do |worker|
-          worker.job.should be_instance_of(Job::Job)          
-        end
-        worker_manager.workers.should have(2).Workers
+          worker.should be_instance_of(BrB::Tunnel::Handler)          
+        end                  
+        
+        worker_manager.workers.count.should == number_of_cores * 2
       end
 
       it "Render 1 job using 4 worker" do
@@ -219,9 +220,10 @@ module WorkerManager
 
         worker_manager.render_scene()
         worker_manager.workers.each do |worker|
-          worker.job.should be_instance_of(Job::Job)
+          worker.should be_instance_of(BrB::Tunnel::Handler)
         end
-        worker_manager.workers.should have(4).Workers
+        worker_manager.workers.count.should == number_of_cores * 2
+        
       end                                                      
     end                                             
   end

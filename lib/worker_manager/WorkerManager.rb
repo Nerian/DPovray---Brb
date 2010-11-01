@@ -1,5 +1,5 @@
 module WorkerManager
-  
+
   # The WorkerManager is a controller kind of component. The WorkerManager duty is to use the processing power
   # of a single machine at its fullest. In order to do this every time the WorkerManager receives a Job it will
   # divide it in many subjobs. For every subjob it will create a Worker, which will be a separate process.
@@ -7,19 +7,19 @@ module WorkerManager
   #
   # By using this process we ensure that all cpu cores are used in parallel.
   class WorkerManager
-    
+
     # @return [Integer] The max number of cores that can be used.
     attr_reader :cores  
-                                         
+
     # @return [Job] The current job. 
     attr_reader :job
-    
+
     # @return [Array<Job>] The current list of subjobs.
     attr_reader :subjobs 
-                        
+
     # @return [Array<Worker>] The list of workers that the Worker_Manager is using to render a scene.
     attr_reader :workers
-    
+
 
     # Instantiates a WorkerManager object.
     #
@@ -32,7 +32,9 @@ module WorkerManager
       end               
       @cores = number_of_cores.to_i
       @job = nil
-      @subjobs = []     
+      @subjobs = []  
+      @work_counter = 0
+      @number_of_completions = 0
     end                       
 
     # Set the WorkerManager current Job. 
@@ -70,32 +72,36 @@ module WorkerManager
       @subjobs = generate_subjobs(number_of_jobs_that_we_want_to_create)      
 
     end
-    
+
+    def report(message)
+      @number_of_completions += 1
+      if @number_of_completions == @subjobs.count        
+        BrB::Service.stop_service()
+        EM.stop
+      end
+    end       
+
     # It instantiate many workers 
     def render_scene()  
-      
       @workers = []                         
-      worker_pid = []
-      counter = 1   
-                             
-      @subjobs.each do |subjob|
-        worker = Worker::Worker.new("worker:#{counter}")
-        worker.add_job(subjob.serialize(), ProjectServer::ProjectServer.new)
-        pid = fork { 
-          worker.retrieve_pov_file_from_server
-          worker.povray_start_render
-        }                 
-        worker_pid.push(pid)        
-        @workers.push(worker)
+      @worker_pid = []
+                     
+      counter = 1
+      @subjobs.each do |subjob|                                        
+        fork {                                 
+          worker = Worker::Worker.new("worker:#{counter}")
+          worker.start_your_work(subjob.serialize)
+        }                                       
         counter +=1
       end
-      
-      worker_pid.each do |pid|
-        Process.waitpid(pid)
-      end
-                         
+ 
+      EM::run do # Start event machine
+        # Start BrB Service, expose an instance of core object to the outside world
+        BrB::Service.start_service(:object => self,:verbose => true, :host => 'localhost', :port => 5555)
+      end        
+            
     end
-                                                           
+
     private 
     # It generates a subjob list. It will use self.job to generate a list of jobs whose render 
     # will equal to the render of self.job. The subjob list it meant to be used by child Workers.  
