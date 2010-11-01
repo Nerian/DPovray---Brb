@@ -204,7 +204,7 @@ module WorkerManager
 
         worker_manager.render_scene()
         worker_manager.workers.each do |worker|
-          worker.job.should_not be(nil)
+          worker.job.should be_instance_of(Job::Job)          
         end
         worker_manager.workers.should have(2).Workers
       end
@@ -219,7 +219,7 @@ module WorkerManager
 
         worker_manager.render_scene()
         worker_manager.workers.each do |worker|
-          worker.job.should_not be(nil)
+          worker.job.should be_instance_of(Job::Job)
         end
         worker_manager.workers.should have(4).Workers
       end                                                      

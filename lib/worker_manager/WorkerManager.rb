@@ -79,7 +79,7 @@ module WorkerManager
       @subjobs.each do |subjob|
         worker = Worker::Worker.new("worker:#{counter}")
         worker.add_job(subjob.serialize())
-        @workers.push(worker)                           
+        @workers.push(worker)
         counter +=1
       end
                          
