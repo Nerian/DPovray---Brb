@@ -8,8 +8,17 @@ module Job
         starting_column = '0'
         ending_colum = '100'
         job = Job.new(id, starting_column, ending_colum)                                      
-        job.starting_column.should == starting_column
-        job.ending_column.should == ending_colum         
+        job.starting_column.should == 0
+        job.ending_column.should == 100         
+      end
+      
+      it "Initialise with correct arguments, string with %" do
+        id = "project1:job10"
+        starting_column = '0%'
+        ending_colum = '100%'
+        job = Job.new(id, starting_column, ending_colum)                                      
+        job.starting_column.should == 0
+        job.ending_column.should == 100         
       end
       
       it "Initialise with correct arguments, integer" do 
@@ -17,8 +26,8 @@ module Job
         starting_column = 0
         ending_colum = 100
         job = Job.new(id, starting_column, ending_colum)                                      
-        job.starting_column.should == starting_column
-        job.ending_column.should == ending_colum        
+        job.starting_column.should == 0
+        job.ending_column.should == 100        
       end                                       
       
       it "Should raise exception if starting column is not positive" do
@@ -39,17 +48,13 @@ module Job
       end              
     end
     
-    describe "Equality" do
+    describe "#Equality" do
       it "Should say two Jobs are the same if they have the same attributes" do
          job1 = Job.new("1",0, 100)
          job2 = Job.new("1",0, 100)
          job1.should == job2
          
       end
-    end
-    
-    
-    
-  end
-  
+    end            
+  end  
 end

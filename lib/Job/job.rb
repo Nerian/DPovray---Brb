@@ -16,8 +16,8 @@ module Job
       unless ending_column.to_i >= 0
         raise ArgumentError, "ending column must be a positive number"        
       end
-      @starting_column = starting_column
-      @ending_column = ending_column      
+      @starting_column = starting_column.to_i
+      @ending_column = ending_column.to_i      
     end  
     
     def serialize
