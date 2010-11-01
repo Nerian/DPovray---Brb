@@ -9,13 +9,13 @@ module WorkerManager
   class WorkerManager
     
     # @return [Integer] The max number of cores that can be used.
-    attr_accessor :cores  
+    attr_reader :cores  
                                          
     # @return [Job] The current job. 
-    attr_accessor :job
+    attr_reader :job
     
     # @return [Array<Job>] The current list of subjobs.
-    attr_accessor :subjobs
+    attr_reader :subjobs
     
 
     # Instantiates a WorkerManager object.
