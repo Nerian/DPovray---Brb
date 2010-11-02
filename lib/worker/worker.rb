@@ -28,13 +28,17 @@ module Worker
       @tmp_folder = tmp_folder
     end
     
-    def start_your_work(serialized_job)
-      core = BrB::Tunnel.create(nil, "brb://localhost:5555")
+    def start_your_work(serialized_job)      
+      
+      core = BrB::Tunnel.create(nil, "brb://localhost:5555", :verbose => true)
+      core.report("Vaya mierda")      
       add_job(serialized_job)
       retrieve_pov_file_from_server
       povray_start_render
       send_rendered_image_to_job_requester
-      core.report("done")
+      #core.report
+      #core.stop_service
+      sleep(2)      
     end
         
     def add_job(serialized_job, project_server=nil)      
