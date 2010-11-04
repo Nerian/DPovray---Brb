@@ -15,10 +15,10 @@ Scenario Outline: Worker Manager split the job in many pieces among workers.
 
 	Examples:
 		| cores | job | job_division_result | number_workers |
-		| 1 | id "p1.pt1" sc "0%" ec "100%" | "{'1'=>{'sc'=>0% , 'ec'=>50%}, '2'=>{'sc'=>'50%', 'ec' => '100%'}}" | 2 |
-		| 2 | id "p1.pt1" sc "0%" ec "100%" | "{'1'=>{'sc'=>0% , 'ec'=>25%}, '2'=>{'sc'=>'25%', 'ec' => '50%'}, '3'=>{'sc'=>'50%' , 'ec'=>'75%'}, '4'=>{'sc'=>'75%' , 'ec'=>'100%'}}" | 4 |
-		| 1 | id "p1.pt1" sc "0%" ec "50%"  | "{'1'=>{'sc'=>0% , 'ec'=>25%}, '2'=>{'sc'=>'25%', 'ec' => '50%'}}" | 2 |
-		| 1 | id "p1.pt1" sc "0%" ec "25%"  | "{'1'=>{'sc'=>0% , 'ec'=>12%}, '2'=>{'sc'=>'12%', 'ec' => '25%'}}" | 2 |
+		| 1 | id "p1.pt1" sc "0%" ec "100%" | "[id:p1.pt1 starting_column:0 ending_column:50, id:p1.pt1 starting_column:50 ending_column:100]" | 2 |
+		| 2 | id "p1.pt1" sc "0%" ec "100%" | "[id:p1.pt1 starting_column:0 ending_column:25, id:p1.pt1 starting_column:25 ending_column:50, id:p1.pt1 starting_column:50 ending_column:75, id:p1.pt1 starting_column:75 ending_column:100]" | 4 |
+		| 1 | id "p1.pt1" sc "0%" ec "50%"  | "[id:p1.pt1 starting_column:0 ending_column:25, id:p1.pt1 starting_column:25 ending_column:50]" | 2 |
+		| 1 | id "p1.pt1" sc "0%" ec "25%"  | "[id:p1.pt1 starting_column:0 ending_column:12, id:p1.pt1 starting_column:12 ending_column:25]" | 2 |
 
 
 

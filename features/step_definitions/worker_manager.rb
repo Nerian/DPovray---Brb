@@ -10,7 +10,7 @@ Then /^I should split the job in many sub-jobs$/ do
 end
 
 Then /^I should create workers and assign them the jobs$/ do
-  pending # express the regexp above with the code you wish you had
+  @worker_manager.render_scene()
 end
 
 Then /^I should receive (\d+) Partial Images$/ do |arg1|
@@ -22,5 +22,5 @@ Given /^I had received job id "([^"]*)" sc "([^"]*)" ec "([^"]*)"$/ do |id, star
 end
               
 Then /^I should see the division results as "([^"]*)"$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+  @worker_manager.subjobs.to_s.should == arg1
 end

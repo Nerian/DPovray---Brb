@@ -21,6 +21,13 @@ module Worker
       marshaled_povray_scene_file = Marshal.dump(povray_scene_string)        
     }
     let(:tmp_folder_path){"/tmp/#{worker.id}"}                          
+         
+    
+    describe "#Initialize" do
+      it "Should initialize with correct arguments" do
+        worker = Worker.new()
+      end
+    end
     
     describe "#Create_folder_structure" do
       
