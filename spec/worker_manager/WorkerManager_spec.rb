@@ -202,11 +202,7 @@ module WorkerManager
         worker_manager.addJob(job1)
         worker_manager.split_job()
 
-        worker_manager.render_scene()
-        worker_manager.workers.each do |worker|
-          worker.should be_instance_of(BrB::Tunnel::Handler)          
-        end                  
-        
+        worker_manager.render_scene()             
         worker_manager.number_of_completions.should == number_of_cores * 2
       end
 
@@ -218,10 +214,7 @@ module WorkerManager
         worker_manager.addJob(job1)
         worker_manager.split_job()
 
-        worker_manager.render_scene()
-        worker_manager.workers.each do |worker|
-          worker.should be_instance_of(BrB::Tunnel::Handler)
-        end
+        worker_manager.render_scene()     
         worker_manager.number_of_completions.should == number_of_cores * 2
         
       end                                                      

@@ -35,7 +35,6 @@ module WorkerManager
       @cores = number_of_cores.to_i
       @job = nil
       @subjobs = []  
-      @work_counter = 0
       @number_of_completions = 0
     end                       
 
@@ -76,15 +75,10 @@ module WorkerManager
     end
 
     def report(arg)
-      puts ">>> #{arg}"
       @number_of_completions = @number_of_completions+1
-      puts "Number of completions #{@number_of_completions} / Number of subjobs #{@subjobs.count}"
       if @number_of_completions == @subjobs.count
-        puts "Close everything, start. Closing BrB..."            
         BrB::Service.stop_service     
-        puts "BrB closed, closing EM..."
         EM.stop
-        puts "Close everything, end" 
       end
     end       
 
@@ -92,40 +86,32 @@ module WorkerManager
     # and they will communicate back to this class when the are finished doing its job. They will call 
     # 'report for that. 
     def render_scene()  
-      @workers = []                         
-      @worker_pid = []
-      @worker_connections = []
+      worker_pid = create_workers()
+                        
+      EM::run do # Start event machine
+        # Start BrB Service, expose an instance of core object to the outside world
+        BrB::Service.start_service(:object => self, :host => 'localhost', :port => 5555)
+      end    
+    end
 
+    private
+    
+    def create_workers()
       counter = 1
+      worker_pid = []
       @subjobs.each do |subjob|                                        
         pid = fork {
-          sleep(2)                                 
+          sleep(2)  # Necessary to give the EventMachine time to start.                                
           worker = Worker::Worker.new("worker:#{counter}")
           worker.start_your_work(subjob.serialize)          
         }     
-        @worker_pid.push(pid)                                  
+        worker_pid.push(pid)                                  
         counter +=1        
       end
-                  
-      EM::run do # Start event machine
-        # Start BrB Service, expose an instance of core object to the outside world
-        BrB::Service.start_service(:object => self,:verbose => true, :host => 'localhost', :port => 5555) do |type, tunnel|
-          puts 'hello'
-          if type == :register
-            # A new tunnel has been opened, you can call method directly on the tunnel
-            @worker_connections.push(tunnel)
-            puts "add #{@worker_connections.count}" 
-          elsif type == :unregister            
-            @worker_connections.delete(tunnel)                                     
-            puts "remove #{@worker_connections.count}"
-          end
-
-        end
-      end    
-
+      return worker_pid       
     end
-
-    private 
+    
+     
     # It generates a subjob list. It will use self.job to generate a list of jobs whose render 
     # will equal to the render of self.job. The subjob list it meant to be used by child Workers.  
     #

@@ -30,7 +30,7 @@ module Worker
     
     def start_your_work(serialized_job)      
       
-      core = BrB::Tunnel.create(nil, "brb://localhost:5555", :verbose => true)     
+      core = BrB::Tunnel.create(nil, "brb://localhost:5555")     
       add_job(serialized_job)
       retrieve_pov_file_from_server
       povray_start_render
