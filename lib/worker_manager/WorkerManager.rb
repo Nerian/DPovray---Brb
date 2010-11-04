@@ -19,6 +19,8 @@ module WorkerManager
 
     # @return [Array<Worker>] The list of workers that the Worker_Manager is using to render a scene.
     attr_reader :workers
+    
+    attr_reader :number_of_completions
 
 
     # Instantiates a WorkerManager object.

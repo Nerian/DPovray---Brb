@@ -207,7 +207,7 @@ module WorkerManager
           worker.should be_instance_of(BrB::Tunnel::Handler)          
         end                  
         
-        worker_manager.workers.count.should == number_of_cores * 2
+        worker_manager.number_of_completions.should == number_of_cores * 2
       end
 
       it "Render 1 job using 4 worker" do
@@ -222,7 +222,7 @@ module WorkerManager
         worker_manager.workers.each do |worker|
           worker.should be_instance_of(BrB::Tunnel::Handler)
         end
-        worker_manager.workers.count.should == number_of_cores * 2
+        worker_manager.number_of_completions.should == number_of_cores * 2
         
       end                                                      
     end                                             
