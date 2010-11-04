@@ -74,10 +74,16 @@ module WorkerManager
     end
 
     def report(arg)
-      puts "> #{arg}"      
+      puts ">>> #{arg}"
+      @number_of_completions = @number_of_completions+1
+      if @number_of_completions == @subjobs.count            
+        BrB::Service.stop_service 
+      end
     end       
 
-    # It instantiate many workers 
+    # It instantiate a Worker for each Job in the SubJob list. Each of these Workers will be a separate process
+    # and they will communicate back to this class when the are finished doing its job. They will call 
+    # 'report for that. 
     def render_scene()  
       @workers = []                         
       @worker_pid = []
@@ -90,39 +96,24 @@ module WorkerManager
           worker.start_your_work(subjob.serialize)          
         }     
         @worker_pid.push(pid)                                  
-        counter +=1
-        
+        counter +=1        
       end
-      
-      
-
+                  
       EM::run do # Start event machine
         # Start BrB Service, expose an instance of core object to the outside world
         BrB::Service.start_service(:object => self,:verbose => true, :host => 'localhost', :port => 5555) do |type, tunnel|
-          puts 'helllo'
+          puts 'hello'
           if type == :register
             # A new tunnel has been opened, you can call method directly on the tunnel
             @worker_connections.push(tunnel)
             puts "add #{@worker_connections.count}" 
-          elsif type == :unregister
+          elsif type == :unregister            
+            @worker_connections.delete(tunnel)                                     
             puts "remove #{@worker_connections.count}"
-            @worker_connections.delete(tunnel)            
-            if(@worker_connections.count == 0)
-               EM::stop
-            end
-            
           end
 
         end
-      end
-      
-      self.stop_service
-      EM::stop
-
-      @worker_pid.each do |pid|
-        Process.detach(pid)
-        puts "#{pid} done"
-      end        
+      end    
 
     end
 
