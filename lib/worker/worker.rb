@@ -35,9 +35,8 @@ module Worker
       retrieve_pov_file_from_server
       povray_start_render
       send_rendered_image_to_job_requester
-      #core.report("hoho")
+      core.report("hoho")
       #core.stop_service  
-      core.close_connection
       sleep(2)      
     end
         

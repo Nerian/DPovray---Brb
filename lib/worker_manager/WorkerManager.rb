@@ -76,8 +76,13 @@ module WorkerManager
     def report(arg)
       puts ">>> #{arg}"
       @number_of_completions = @number_of_completions+1
-      if @number_of_completions == @subjobs.count            
-        BrB::Service.stop_service 
+      puts "Number of completions #{@number_of_completions} / Number of subjobs #{@subjobs.count}"
+      if @number_of_completions == @subjobs.count
+        puts "Close everything, start. Closing BrB..."            
+        BrB::Service.stop_service     
+        puts "BrB closed, closing EM..."
+        EM.stop
+        puts "Close everything, end" 
       end
     end       
 
@@ -91,7 +96,8 @@ module WorkerManager
 
       counter = 1
       @subjobs.each do |subjob|                                        
-        pid = fork {                                 
+        pid = fork {
+          sleep(2)                                 
           worker = Worker::Worker.new("worker:#{counter}")
           worker.start_your_work(subjob.serialize)          
         }     
