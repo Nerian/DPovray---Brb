@@ -61,7 +61,6 @@ module WorkerManager
     # @param None
     # @return [Array<Job>] The list of subjobs. It is the same as self.subjobs
     def split_job()           
-
       number_of_real_process = @cores * 2
       number_of_columns_to_render = @job.ending_column - @job.starting_column
 
@@ -71,7 +70,6 @@ module WorkerManager
       end
 
       @subjobs = generate_subjobs(number_of_jobs_that_we_want_to_create)      
-
     end
 
     def report(arg)
@@ -81,34 +79,28 @@ module WorkerManager
         EM.stop
       end
     end       
-
+    
     # It instantiate a Worker for each Job in the SubJob list. Each of these Workers will be a separate process
     # and they will communicate back to this class when the are finished doing its job. They will call 
     # 'report for that. 
     def render_scene()  
-      worker_pid = create_workers()
-                        
-      EM::run do # Start event machine
-        # Start BrB Service, expose an instance of core object to the outside world
+      create_workers(@subjobs.count)                        
+      EM::run do
         BrB::Service.start_service(:object => self, :host => 'localhost', :port => 5555)
       end    
-    end
-
-    private
+    end      
     
-    def create_workers()
-      counter = 1
-      worker_pid = []
-      @subjobs.each do |subjob|                                        
+    private                                    
+            
+    def create_workers(number_of_jobs)      
+      number_of_jobs.times do |counter| 
         pid = fork {
           sleep(2)  # Necessary to give the EventMachine time to start.                                
           worker = Worker::Worker.new("worker:#{counter}")
-          worker.start_your_work(subjob.serialize)          
-        }     
-        worker_pid.push(pid)                                  
-        counter +=1        
-      end
-      return worker_pid       
+          worker.start_your_work(@subjobs[counter].serialize)
+        }             
+        Process.detach(pid)
+      end      
     end
     
      
