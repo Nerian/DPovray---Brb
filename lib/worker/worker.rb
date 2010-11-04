@@ -40,25 +40,18 @@ module Worker
       sleep(2)      
     end
         
-    def add_job(serialized_job, project_server=nil)      
-           
-      #@output.puts "Received a new Job"
+    def add_job(job, project_server=nil)      
+                 
       # This is for testing purposes. The arg project_server will be a mock object. Normally, the project_server will
       # be obtained from the Job information.
       if project_server.nil?
         @project_server = ProjectServer::ProjectServer.new
-      end                                                          
-            
-      @job = Job::Job.deserialize(serialized_job)
-                         
-      #@output.puts "Unmarshaling the Object..."
-      if @job.instance_of? Job::Job                   
-        #@output.puts 'Unmarshaling completed'
-      else                                           
-        #Add exception 
-        #@output.puts 'Error: Failed to Unmarshal de Job'
-      end 
-      
+      end                                                                                                                 
+      if job.instance_of? Job::Job                         
+        @job = job
+      else
+        raise "Error: Worker #{@id} received a corrupted job object "
+      end
     end  
     
     def retrieve_pov_file_from_server()                         
@@ -87,11 +80,8 @@ module Worker
     end          
       
     def povray_start_render()
-      #@output.puts "Povray render process started"
       if system("povray -SC0.#{@job.starting_column} -EC0.#{@job.ending_column} +FN -GAfile #{tmp_folder}/povray.pov Output_File_Name=#{tmp_folder}/partial_image.png 2>#{tmp_folder}/error") 
-        @output.puts "Povray command was run"
         if File.exist?("#{tmp_folder}/partial_image.png")
-          @output.puts "Partial image was rendered successfully"
         else
           @output.puts "Error: Partial image was NOT rendered succefully"
         end       
@@ -111,7 +101,6 @@ module Worker
       #@output.puts("Connection with server stablished")
       
       if @project_server.put(Marshal.dump(@job), Marshal.dump(partial_image_file)) == true
-        @output.puts("Image successfully sent")
       else
         @output.puts("Error: Failure while sending the file")
       end

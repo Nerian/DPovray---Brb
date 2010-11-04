@@ -97,7 +97,7 @@ module WorkerManager
         pid = fork {
           sleep(2)  # Necessary to give the EventMachine time to start.                                
           worker = Worker::Worker.new("worker:#{counter}")
-          worker.start_your_work(@subjobs[counter].serialize)
+          worker.start_your_work(@subjobs[counter])
         }             
         Process.detach(pid)
       end      

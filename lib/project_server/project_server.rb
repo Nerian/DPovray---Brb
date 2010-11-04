@@ -22,8 +22,7 @@ module ProjectServer
         return_value = false
         puts "Error: Received 'put' order to register a completed job, but either Image or Job was corrupted"
       else          
-        return_value = true
-        puts "Image received"        
+        return_value = true        
       end
       return return_value
     end

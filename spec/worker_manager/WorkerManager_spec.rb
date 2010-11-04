@@ -202,7 +202,7 @@ module WorkerManager
         worker_manager.addJob(job1)
         worker_manager.split_job()
 
-        worker_manager.render_scene()             
+        worker_manager.render_scene()
         worker_manager.number_of_completions.should == number_of_cores * 2
       end
 

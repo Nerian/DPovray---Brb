@@ -25,7 +25,7 @@ module Worker
     
     describe "#Initialize" do
       it "Should initialize with correct arguments" do
-        worker = Worker.new()
+        worker = Worker.new('worker:1')
       end
     end
     
@@ -52,82 +52,47 @@ module Worker
             
     describe "#add_job(job)" do      
                       
-      it "Worker received a new Job" do              
-        output.should_receive(:puts).with('Received a new Job')
-        worker.add_job(job.serialize())
-        worker.job.should_not be(nil)
-                
+      it "Worker received a new Job" do
+        job = Job::Job.new('job:1', 0, 100)              
+        worker.add_job(job)
+        worker.job.should_not be(nil)                
       end                                                      
       
       it "Worker try to unmarshal the received Job" do 
-        output.should_receive(:puts).with('Unmarshaling the Object...')
-        worker.add_job(job.serialize())            
+        job = Job::Job.new('job:1', 0, 100)
+        worker.add_job(job)            
         worker.job.should_not be(nil)
       end 
       
       it "Worker succefully unmarshaled the job" do
-        output.should_receive(:puts).with('Unmarshaling completed')
-        worker.add_job(job.serialize())
+        job = Job::Job.new('job:1', 0, 100)
+        worker.add_job(job)
         worker.job.should_not be(nil)
       end
     end  
     
     describe "#retrieve_pov_file_from_server()" do                
       
-      before(:each) do
-        worker.add_job(marshaled_job, project_server)
-        project_server.stub(:find_pov_file).and_return(marshaled_povray_scene_file)         
-      end     
       
-      it "Worker ask for the .pov file" do
-        output.should_receive(:puts).with('Asking for .pov file')
-        worker.retrieve_pov_file_from_server()       
-      end
-      
-      it "Worker received marshaled scene file" do
-        output.should_receive(:puts).with("Received marshaled .Pov file")
-        project_server.should_receive(:find_pov_file).with(job.id).and_return(marshaled_povray_scene_file)
-        worker.retrieve_pov_file_from_server()        
-      end
-      
-      it "Worker is trying to unmarshal pov file" do 
-        output.should_receive(:puts).with("Unmarshaling .pov file")
-        worker.retrieve_pov_file_from_server()
-      end      
-      
-      it "Worker succefully unmarshaled the pov file" do
-        output.should_receive(:puts).with("Pov file succefully unmarshaled")
-        worker.retrieve_pov_file_from_server()        
-      end                    
-      
-      it "Worker saved scene to temp file" do
-        output.should_receive(:puts).with("Pov file saved to temporal file")                
-        worker.retrieve_pov_file_from_server()
-        File.exist?("#{tmp_folder_path}/povray.pov").should == true        
-      end
     end                          
     
     describe "#povray_start_render()" do
       
       before(:each) do
-        worker.add_job(job.serialize(), project_server)        
-        project_server.stub(:find_pov_file).and_return(marshaled_povray_scene_file)
+        worker.add_job(job)        
         worker.retrieve_pov_file_from_server()
         File.exist?("#{tmp_folder_path}/povray.pov").should == true         
       end
       
       it "Worker start a Povray process" do
-        output.should_receive(:puts).with("Povray render process started")
         worker.povray_start_render()
       end                          
       
       it "Povray command was ran" do          
-        output.should_receive(:puts).with("Povray command was run")
         worker.povray_start_render()
       end
       
       it "Image was rendered succefully" do         
-        output.should_receive(:puts).with("Partial image was rendered successfully")        
         worker.povray_start_render()                                                
         File.exist?("#{tmp_folder_path}/partial_image.png").should == true
       end
@@ -135,27 +100,22 @@ module Worker
     describe "#send_rendered_image_to_job_requester()" do                                                           
       
       before(:each) do
-        worker.add_job(job.serialize(), project_server)        
-        project_server.stub(:find_pov_file).and_return(marshaled_povray_scene_file)       
+        worker.add_job(job)        
         worker.retrieve_pov_file_from_server()
         worker.povray_start_render()
       end
       
       it "Worker contact project server" do
-        output.should_receive(:puts).with("Connection with server stablished")           
         worker.send_rendered_image_to_job_requester()        
       end
       
       it "Worker send partial image to project server" do
-        output.should_receive(:puts).with("Image successfully sent")
-        project_server.should_receive(:put).with(marshaled_job,/\w/).and_return(true)      
         worker.send_rendered_image_to_job_requester()        
       end
     end
     
     describe "#Clean up tmp directory" do
       it "Worker remove its tmp directory" do
-        output.should_receive(:puts).with("Cleanup completed")
         worker.cleanup()        
         Dir.exist?("#{tmp_folder_path}").should == false
       end
