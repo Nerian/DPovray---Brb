@@ -35,9 +35,10 @@ module Worker
       retrieve_pov_file_from_server
       povray_start_render
       send_rendered_image_to_job_requester
-      core.report("hoho")
-      #core.stop_service  
-      sleep(2)      
+      core.report("task finished!")        
+      sleep(2) 
+      cleanup()      
+      
     end
         
     def add_job(job, project_server=nil)      
@@ -125,7 +126,6 @@ module Worker
       if Dir.exist?(@tmp_folder)
         FileUtils.rm_rf(@tmp_folder)
       end
-      @output.puts("Cleanup completed")
     end
 
   end  
