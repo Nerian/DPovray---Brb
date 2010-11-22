@@ -231,6 +231,12 @@ module WorkerManager
         worker_manager.number_of_completions.should == number_of_cores * 2
         
       end                                                      
-    end                                             
+    end
+    
+    describe "#Getting Partial Images" do
+      
+      
+    end
+                                                 
   end
 end

@@ -96,7 +96,7 @@ module WorkerManager
       number_of_jobs.times do |counter| 
         pid = fork {
           sleep(2)  # Necessary to give the EventMachine time to start.                                
-          worker = Worker::Worker.new("worker:#{counter}")
+          worker = Worker::Worker.new("worker#{counter}")
           worker.start_your_work(@subjobs[counter])
         }             
         Process.detach(pid)

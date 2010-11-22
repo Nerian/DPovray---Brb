@@ -93,7 +93,7 @@ module Worker
       
       it "Image was rendered succefully" do         
         worker.povray_start_render()                                                
-        File.exist?("#{tmp_folder_path}/partial_image.png").should == true
+        File.exist?("#{tmp_folder_path}/partial_image.tga").should == true
       end
     end
     describe "#send_rendered_image_to_job_requester()" do                                                           

@@ -18,9 +18,9 @@ Scenario Outline: Worker Manager split the job in many pieces among workers.
 		| 1 | id "p1.pt1" sc "0%" ec "100%" | "[id:p1.pt1 starting_column:0 ending_column:50, id:p1.pt1 starting_column:50 ending_column:100]" | 2 |
 		| 2 | id "p1.pt1" sc "0%" ec "100%" | "[id:p1.pt1 starting_column:0 ending_column:25, id:p1.pt1 starting_column:25 ending_column:50, id:p1.pt1 starting_column:50 ending_column:75, id:p1.pt1 starting_column:75 ending_column:100]" | 4 |
 		| 1 | id "p1.pt1" sc "0%" ec "50%"  | "[id:p1.pt1 starting_column:0 ending_column:25, id:p1.pt1 starting_column:25 ending_column:50]" | 2 |
-		| 1 | id "p1.pt1" sc "0%" ec "25%"  | "[id:p1.pt1 starting_column:0 ending_column:12, id:p1.pt1 starting_column:12 ending_column:25]" | 2 |
-
-
+		| 1 | id "p1.pt1" sc "0%" ec "25%"  | "[id:p1.pt1 starting_column:0 ending_column:12, id:p1.pt1 starting_column:12 ending_column:25]" | 2 |                             
+	
+	 
 
 
 

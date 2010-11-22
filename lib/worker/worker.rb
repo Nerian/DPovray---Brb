@@ -14,18 +14,18 @@ module Worker
     def initialize(output=STDOUT, id) 
       @output = output              
       @id = id
+      @tmp_folder = "/tmp/#{@id}"
+      @partial_image_file_path = @tmp_folder+"/partial_image.tga"
       create_folder_structure()
     end       
     
     def create_folder_structure()
-      tmp_folder = "/tmp/#{@id}"
-      if Dir.exist?(tmp_folder)
-        FileUtils.rm_rf(tmp_folder)
-        FileUtils.mkdir(tmp_folder)
+      if Dir.exist?(@tmp_folder)
+        FileUtils.rm_rf(@tmp_folder)
+        FileUtils.mkdir(@tmp_folder)
       else
-        FileUtils.mkdir(tmp_folder)
+        FileUtils.mkdir(@tmp_folder)
       end        
-      @tmp_folder = tmp_folder
     end
     
     def start_your_work(serialized_job)      
@@ -81,8 +81,8 @@ module Worker
     end          
       
     def povray_start_render()
-      if system("povray -SC0.#{@job.starting_column} -EC0.#{@job.ending_column} +FN -GAfile #{tmp_folder}/povray.pov Output_File_Name=#{tmp_folder}/partial_image.png 2>#{tmp_folder}/error") 
-        if File.exist?("#{tmp_folder}/partial_image.png")
+      if system("povray -SC0.#{@job.starting_column} -EC0.#{@job.ending_column} +FT -GAfile #{tmp_folder}/povray.pov -O#{@partial_image_file_path} 2>#{tmp_folder}/error") 
+        if File.exist?("#{tmp_folder}/partial_image.tga")
         else
           @output.puts "Error: Partial image was NOT rendered succefully"
         end       
@@ -109,9 +109,9 @@ module Worker
     end
     
     def partial_image_file
-      if File.exist?("#{tmp_folder}/partial_image.png")
+      if File.exist?(@partial_image_file_path)
         partial_image = ''
-        file = File.open("#{tmp_folder}/partial_image.png","r")
+        file = File.open(@partial_image_file_path,"r")
         file.each_line do |line| 
           partial_image +=line
         end
