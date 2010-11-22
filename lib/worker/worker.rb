@@ -82,7 +82,7 @@ module Worker
       
     def povray_start_render()
       if system("povray -SC0.#{@job.starting_column} -EC0.#{@job.ending_column} +FT -GAfile #{tmp_folder}/povray.pov -O#{@partial_image_file_path} 2>#{tmp_folder}/error") 
-        if File.exist?("#{tmp_folder}/partial_image.tga")
+        if File.exist?(@partial_image_file_path)
         else
           @output.puts "Error: Partial image was NOT rendered succefully"
         end       
