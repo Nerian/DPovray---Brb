@@ -13,8 +13,8 @@ Then /^I should create workers and assign them the jobs$/ do
   @worker_manager.render_scene()
 end
 
-Then /^I should receive (\d+) Partial Images$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+Then /^I should receive (\d+) Partial Images$/ do |number_of_partial_images|
+  @worker_manager.number_of_completions.should.to_s == number_of_partial_images
 end 
 
 Given /^I had received job id "([^"]*)" sc "([^"]*)" ec "([^"]*)"$/ do |id, startingCol, endingCol|
