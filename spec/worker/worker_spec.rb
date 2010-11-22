@@ -2,7 +2,6 @@
 # Licence:: See Licence.rdoc
 
 require 'spec_helper'
-require 'BrB'
             
 module Worker
   describe Worker do 
