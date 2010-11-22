@@ -217,6 +217,19 @@ module WorkerManager
         worker_manager.render_scene()     
         worker_manager.number_of_completions.should == number_of_cores * 2
         
+      end
+      
+      it "Render 1 job using 8 worker" do
+        number_of_cores = 4
+        job1 = Job::Job.new("project:4", 0, 100)
+
+        worker_manager = WorkerManager.new(number_of_cores)
+        worker_manager.addJob(job1)
+        worker_manager.split_job()
+
+        worker_manager.render_scene()     
+        worker_manager.number_of_completions.should == number_of_cores * 2
+        
       end                                                      
     end                                             
   end
