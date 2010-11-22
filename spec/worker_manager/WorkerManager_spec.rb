@@ -203,6 +203,8 @@ module WorkerManager
         worker_manager.split_job()
 
         worker_manager.render_scene()
+        worker_manager.partial_images.should have(2).partial_scenes
+        
         worker_manager.number_of_completions.should == number_of_cores * 2
       end
 
@@ -214,7 +216,8 @@ module WorkerManager
         worker_manager.addJob(job1)
         worker_manager.split_job()
 
-        worker_manager.render_scene()     
+        worker_manager.render_scene()      
+        worker_manager.partial_images.should have(4).partial_scenes
         worker_manager.number_of_completions.should == number_of_cores * 2
         
       end
@@ -227,7 +230,8 @@ module WorkerManager
         worker_manager.addJob(job1)
         worker_manager.split_job()
 
-        worker_manager.render_scene()     
+        worker_manager.render_scene()   
+        worker_manager.partial_images.should have(8).partial_scenes  
         worker_manager.number_of_completions.should == number_of_cores * 2
         
       end                                                      

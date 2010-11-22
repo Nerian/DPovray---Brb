@@ -33,9 +33,8 @@ module Worker
       core = BrB::Tunnel.create(nil, "brb://localhost:5555")     
       add_job(serialized_job)
       retrieve_pov_file_from_server
-      povray_start_render
-      send_rendered_image_to_job_requester
-      core.report("task finished!")        
+      partial_image = povray_start_render      
+      core.report(partial_image)        
       sleep(2) 
       cleanup()      
       
@@ -83,6 +82,8 @@ module Worker
     def povray_start_render()
       if system("povray -SC0.#{@job.starting_column} -EC0.#{@job.ending_column} +FT -GAfile #{tmp_folder}/povray.pov -O#{@partial_image_file_path} 2>#{tmp_folder}/error") 
         if File.exist?(@partial_image_file_path)
+          contents = File.open(@partial_image_file_path, 'rb') { |f| f.read }
+          return contents
         else
           @output.puts "Error: Partial image was NOT rendered succefully"
         end       

@@ -20,7 +20,9 @@ module WorkerManager
     # @return [Array<Worker>] The list of workers that the Worker_Manager is using to render a scene.
     attr_reader :workers
     
-    attr_reader :number_of_completions
+    attr_reader :number_of_completions 
+    
+    attr_reader :partial_images
 
 
     # Instantiates a WorkerManager object.
@@ -35,7 +37,8 @@ module WorkerManager
       @cores = number_of_cores.to_i
       @job = nil
       @subjobs = []  
-      @number_of_completions = 0
+      @number_of_completions = 0 
+      @partial_images = []
     end                       
 
     # Set the WorkerManager current Job. 
@@ -74,6 +77,7 @@ module WorkerManager
 
     def report(arg)
       @number_of_completions = @number_of_completions+1
+      @partial_images.push(arg)
       if @number_of_completions == @subjobs.count
         BrB::Service.stop_service     
         EM.stop
