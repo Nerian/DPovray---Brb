@@ -1,4 +1,4 @@
-DPovray – Distributed Povray
+DPovray – Distributed Povray [![](http://stillmaintained.com/Nerian/DPovray.png)](http://stillmaintained.com/Nerian/DPovray)
 ===
 
 DPovray is Ruby application that aims to make the use of a Cluster of Povray renderers easy. 

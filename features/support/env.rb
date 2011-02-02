@@ -2,4 +2,4 @@
 # Licence:: See Licence.rdoc
 
 $LOAD_PATH << File.expand_path('../../../lib', __FILE__)   
-require 'worker_node'
+require 'dpovray'
